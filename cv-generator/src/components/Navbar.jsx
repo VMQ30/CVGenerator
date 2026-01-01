@@ -1,13 +1,17 @@
-export function Navbar() {
-  const navSections = [
-    "Personal Details",
-    "Work History",
-    "Education",
-    "Skills & Certifications",
-    "Interests",
-    "Additional",
-    "Export",
-  ];
+const navSections = [
+  "Personal Details",
+  "Work Experience",
+  "Education",
+  "Skills & Certifications",
+  "Interests",
+  "Additional",
+  "Export",
+];
 
+function Button() {
+  return button;
+}
+
+export function Navbar() {
   return <nav></nav>;
 }
