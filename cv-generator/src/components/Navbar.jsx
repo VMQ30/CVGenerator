@@ -1,4 +1,3 @@
-import { useState } from "react";
 const navSections = [
   "Personal Details",
   "Work Experience",
@@ -17,8 +16,7 @@ function Button({ label, onClick, isActive }) {
   );
 }
 
-export function Navbar() {
-  const [currentSection, setCurrentSection] = useState(navSections[0]);
+export function Navbar({ currentSection, setCurrentSection }) {
   return (
     <nav>
       {navSections.map((section) => (

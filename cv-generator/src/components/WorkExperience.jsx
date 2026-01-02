@@ -1,5 +1,10 @@
-import { useState } from "react";
 import dragIcon from "../assets/drag.svg";
+import closeIcon from "../assets/close.svg";
+import editIcon from "../assets/edit.svg";
+import hideIcon from "../assets/hide.svg";
+import unhideIcon from "../assets/unhide.svg";
+
+import { useState } from "react";
 import { TextBox, TextArea, EditableBulletItem } from "./Input";
 
 function Modal({ isOpen, onSave, onClose }) {
@@ -82,7 +87,7 @@ function Modal({ isOpen, onSave, onClose }) {
               <EditableBulletItem
                 key={bullet}
                 id={bullet}
-                label="* Responsibility/Achievement"
+                label="Responsibility/Achievement"
                 placeholder="e.g. Led a cross-functional team to improve checkout performance by 25%"
               />
             ))}
@@ -104,7 +109,27 @@ function Modal({ isOpen, onSave, onClose }) {
   );
 }
 
-function ExperienceList() {
+function ToggleHideButton({ isHidden, onClick }) {
+  if (isHidden) {
+    return (
+      <button className="hide">
+        <img src={hideIcon} alt="hide" onClick={onClick} />
+      </button>
+    );
+  }
+
+  if (!isHidden) {
+    return (
+      <button className="unhide">
+        <img src={unhideIcon} alt="hide" onClick={onClick} />
+      </button>
+    );
+  }
+}
+
+function ExperienceList({ data }) {
+  const [isHidden, setIsHidden] = useState(false);
+
   return (
     <div className="experience-list-wrapper">
       <button className="drag">
@@ -112,15 +137,25 @@ function ExperienceList() {
       </button>
       <div className="experience-list">
         <div className="experience-details">
-          <p className="list-name">Company Name</p>
-          <p className="list-title">Title</p>
+          <p className="list-name">{data.companyName} - </p>
+          <p className="list-title">{data.jobTitle}</p>
         </div>
 
-        <button className="experience-buttons">
-          <button className="edit"></button>
-          <button className="hide"></button>
-          <button className="delete"></button>
-        </button>
+        <div className="experience-buttons">
+          <button className="edit">
+            <img src={editIcon} alt="edit" />
+          </button>
+
+          <ToggleHideButton
+            key="hide"
+            isHidden={isHidden}
+            onClick={() => setIsHidden(!isHidden)}
+          />
+
+          <button className="delete">
+            <img src={closeIcon} alr="delete" />
+          </button>
+        </div>
       </div>
     </div>
   );
