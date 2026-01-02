@@ -1,21 +1,31 @@
 import { useState } from "react";
+import dragIcon from "../assets/drag.svg";
 import { TextBox, TextArea, EditableBulletItem } from "./Input";
 
-function Modal({ isOpen }) {
-  const [numOfBulletList, setNumOfBulletList] = useState([]);
+function Modal({ isOpen, onSave, onClose }) {
+  const [bulletList, setbulletList] = useState([]);
 
   function addBullet() {
-    setNumOfBulletList((prevNum) => [
-      ...prevNum,
-      `responsibility${prevNum.length}`,
-    ]);
+    setbulletList((prevNum) => [...prevNum, `responsibility${prevNum.length}`]);
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const data = Object.fromEntries(formData.entries());
+
+    const bullets = bulletList.map((id) => data[id]);
+    const finalData = { ...data, bullets };
+
+    onSave(finalData);
+    setbulletList([]);
   }
 
   if (!isOpen) return null;
   return (
     <div className="modal-container">
       <div className="modal">
-        <form>
+        <form onSubmit={handleSubmit}>
           <TextBox
             id="companyName"
             label="* Company Name"
@@ -61,25 +71,18 @@ function Modal({ isOpen }) {
             placeholder="e.g. New York, NY or Remote"
           />
 
-          <TextBox
-            id="jobLocation"
-            label="* Company Description"
-            type="text"
-            placeholder="City"
-          />
-
           <TextArea
             id="companyDesc"
             label="* Company Description"
             placeholder="e.g. A Fortune 500 fintech leader with over $200M in annual revenue, specializing in global payment processing."
           />
 
-          <div className="modal-respnsibility">
-            {numOfBulletList.map((bullet) => (
+          <div className="modal-responsibility">
+            {bulletList.map((bullet) => (
               <EditableBulletItem
                 key={bullet}
                 id={bullet}
-                label="* Responsibility/Achievemeny"
+                label="* Responsibility/Achievement"
                 placeholder="e.g. Led a cross-functional team to improve checkout performance by 25%"
               />
             ))}
@@ -90,7 +93,7 @@ function Modal({ isOpen }) {
 
           <div className="form-buttons">
             <button className="save">Save</button>
-            <button type="button" className="cancel">
+            <button type="button" className="cancel" onClick={onClose}>
               Cancel
             </button>
           </div>
@@ -101,16 +104,56 @@ function Modal({ isOpen }) {
   );
 }
 
+function ExperienceList() {
+  return (
+    <div className="experience-list-wrapper">
+      <button className="drag">
+        <img src={dragIcon} alt="drag" />
+      </button>
+      <div className="experience-list">
+        <div className="experience-details">
+          <p className="list-name">Company Name</p>
+          <p className="list-title">Title</p>
+        </div>
+
+        <button className="experience-buttons">
+          <button className="edit"></button>
+          <button className="hide"></button>
+          <button className="delete"></button>
+        </button>
+      </div>
+    </div>
+  );
+}
+
 export function WorkExperience() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [experiences, setExperiences] = useState([]);
+
+  const handleSaveExperience = (newExperience) => {
+    setExperiences((prev) => [
+      ...prev,
+      { ...newExperience, id: `experience-${prev.length}` },
+    ]);
+    setIsModalOpen(false);
+  };
+
   return (
     <section>
       <h3>Work Experience</h3>
       <button onClick={() => setIsModalOpen(!isModalOpen)}>
-        Add Work Experiece
+        Add Work Experience
       </button>
 
-      <Modal isOpen={isModalOpen} />
+      {experiences.map((experience) => (
+        <ExperienceList key={experience.id} data={experience} />
+      ))}
+
+      <Modal
+        isOpen={isModalOpen}
+        onSave={handleSaveExperience}
+        onClose={() => setIsModalOpen(false)}
+      />
     </section>
   );
 }
