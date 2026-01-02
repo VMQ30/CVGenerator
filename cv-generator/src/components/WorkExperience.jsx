@@ -1,7 +1,16 @@
 import { useState } from "react";
-import { TextBox } from "./Textbox";
+import { TextBox, TextArea, EditableBulletItem } from "./Input";
 
 function Modal({ isOpen }) {
+  const [numOfBulletList, setNumOfBulletList] = useState([]);
+
+  function addBullet() {
+    setNumOfBulletList((prevNum) => [
+      ...prevNum,
+      `responsibility${prevNum.length}`,
+    ]);
+  }
+
   if (!isOpen) return null;
   return (
     <div className="modal-container">
@@ -59,18 +68,39 @@ function Modal({ isOpen }) {
             placeholder="City"
           />
 
-          <label htmlFor="companyDescription">* Company Description</label>
-          <textarea
+          <TextArea
             id="companyDesc"
-            name="companyDesc"
-            rows="10"
+            label="* Company Description"
             placeholder="e.g. A Fortune 500 fintech leader with over $200M in annual revenue, specializing in global payment processing."
           />
+
+          <div className="modal-respnsibility">
+            {numOfBulletList.map((bullet) => (
+              <EditableBulletItem
+                key={bullet}
+                id={bullet}
+                label="* Responsibility/Achievemeny"
+                placeholder="e.g. Led a cross-functional team to improve checkout performance by 25%"
+              />
+            ))}
+            <button type="button" className="add-bullet" onClick={addBullet}>
+              Add Bullet Point
+            </button>
+          </div>
+
+          <div className="form-buttons">
+            <button className="save">Save</button>
+            <button type="button" className="cancel">
+              Cancel
+            </button>
+          </div>
         </form>
+        <button className="remove-experience">Remove Experience</button>
       </div>
     </div>
   );
 }
+
 export function WorkExperience() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   return (
