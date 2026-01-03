@@ -6,16 +6,45 @@ import { SkillsAndCertifications } from "./components/SkillsAndCertifications";
 import { useState } from "react";
 
 export function App() {
+  const [resumeData, setResumeData] = useState({
+    personalDetails: {},
+    workExperience: [],
+    education: [],
+    skillsAndCertifications: [],
+  });
+
+  const updateResumeData = (data, category) => {
+    setResumeData((prev) => ({
+      ...prev,
+      [category]: data,
+    }));
+  };
+
   const [currentSection, setCurrentSection] = useState("Personal Details");
 
   const renderSection = () => {
     switch (currentSection) {
       case "Personal Details":
-        return <PersonalDetails />;
+        return (
+          <PersonalDetails
+            personalList={resumeData.personalDetails}
+            setPersonalList={updateResumeData}
+          />
+        );
       case "Work Experience":
-        return <WorkExperience />;
+        return (
+          <WorkExperience
+            workList={resumeData.workExperience}
+            setWorkList={updateResumeData}
+          />
+        );
       case "Education":
-        return <Education />;
+        return (
+          <Education
+            educationList={resumeData.education}
+            setEducationList={updateResumeData}
+          />
+        );
       case "Skills & Certifications":
         return <SkillsAndCertifications />;
     }

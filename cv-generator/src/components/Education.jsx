@@ -227,15 +227,16 @@ function EducationList({ data }) {
   );
 }
 
-export function Education() {
+export function Education({ educationList, setEducationList }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [educationDetails, setEducationDetails] = useState([]);
+  const currentList = educationList || [];
 
   const handleSaveEducation = (newEducation) => {
-    setEducationDetails((prev) => [
-      ...prev,
-      { ...newEducation, id: `${prev.length}` },
-    ]);
+    const updatedList = [
+      ...currentList,
+      { ...newEducation, id: `${currentList.length}-${Date.now()}` },
+    ];
+    setEducationList(updatedList, "education");
     setIsModalOpen(false);
   };
 
@@ -243,7 +244,7 @@ export function Education() {
     <section className="education">
       <h3>Education</h3>
 
-      {educationDetails.map((educ) => (
+      {currentList.map((educ) => (
         <EducationList key={educ.id} data={educ} />
       ))}
       <button

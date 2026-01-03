@@ -58,10 +58,6 @@ function DropDown({ isOpen, label, items, addItems, deleteItems }) {
   );
 }
 
-function addDetails({ label }) {
-  return;
-}
-
 export function SkillsAndCertifications() {
   const categories = ["Skills", "Technology", "Languages", "Certificates"];
   const [categoryData, setCategoryData] = useState({

@@ -160,15 +160,17 @@ function ExperienceList({ data }) {
   );
 }
 
-export function WorkExperience() {
+export function WorkExperience({ workList, setWorkList }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [experiences, setExperiences] = useState([]);
+  const currentList = workList || [];
 
   const handleSaveExperience = (newExperience) => {
-    setExperiences((prev) => [
-      ...prev,
-      { ...newExperience, id: `experience-${prev.length}` },
-    ]);
+    const updatedList = [
+      ...currentList,
+      { ...newExperience, id: `${currentList.length}-${Date.now()}` },
+    ];
+
+    setWorkList(updatedList, "workExperience");
     setIsModalOpen(false);
   };
 
@@ -179,7 +181,7 @@ export function WorkExperience() {
         Add Work Experience
       </button>
 
-      {experiences.map((experience) => (
+      {currentList.map((experience) => (
         <ExperienceList key={experience.id} data={experience} />
       ))}
 
