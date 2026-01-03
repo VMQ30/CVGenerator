@@ -99,8 +99,10 @@ function Modal({ isOpen, onSave, onClose }) {
               Cancel
             </button>
           </div>
+          <button type="button" className="remove-experience">
+            Remove Experience
+          </button>
         </form>
-        <button className="remove-experience">Remove Experience</button>
       </div>
     </div>
   );

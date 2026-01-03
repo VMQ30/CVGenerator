@@ -1,30 +1,43 @@
+import dragIcon from "../assets/drag.svg";
+import closeIcon from "../assets/close.svg";
+import editIcon from "../assets/edit.svg";
+import hideIcon from "../assets/hide.svg";
+import unhideIcon from "../assets/unhide.svg";
 import { useState } from "react";
-import { TextBox, TextArea, EditableBulletItem } from "./Input";
+import { TextBox, EditableBulletItem } from "./Input";
 
-function Modal({ isOpen }) {
+function Modal({ isOpen, onSave, onClose }) {
   const [bulletList, setBulletList] = useState([]);
   const [honorsList, setHonorsList] = useState([]);
 
-  function handleSubmit() {
+  function handleSubmit(e) {
     e.preventDefault();
     const formData = new FormData(e.target);
-    const data = Object.entries(formData.entries());
+    const data = Object.fromEntries(formData.entries());
 
     const bullets = bulletList.map((bullet) => data[bullet]);
     const honors = honorsList.map((honor) => data[honor]);
     const finalData = { ...data, bullets, honors };
 
-    // onSave(finalData);
+    onSave(finalData);
     setBulletList([]);
     setHonorsList([]);
   }
 
-  function AddBulletList(newBullet) {
-    setBulletList((prev) => [...prev, `educDetails-${newBullet}`]);
+  function AddBulletList() {
+    setBulletList((prev) => [...prev, `educDetails-${Date.now()}`]);
   }
 
   function AddHonorsList() {
-    setHonorsList((prev) => [...prev, `honorList-${prev.length}`]);
+    setHonorsList((prev) => [...prev, `honorList-${Date.now()}`]);
+  }
+
+  function removeHonorsList(delId) {
+    setHonorsList((prev) => prev.filter((id) => id !== delId));
+  }
+
+  function removeBulletList(delId) {
+    setBulletList((prev) => prev.filter((id) => id !== delId));
   }
 
   if (!isOpen) return null;
@@ -73,6 +86,7 @@ function Modal({ isOpen }) {
                 id={honors}
                 label="Honors/Extracurriculars"
                 placeholder="Dean's List, Summa Cum Laude, Organization President"
+                onDelete={() => removeHonorsList(honors)}
               />
             ))}
 
@@ -84,6 +98,36 @@ function Modal({ isOpen }) {
               Add Honors and Extracurricular
             </button>
           </div>
+
+          <div className="educ-details">
+            {bulletList.map((bullet) => (
+              <EditableBulletItem
+                id={bullet}
+                key={bullet}
+                label="Education Details"
+                placeholder="details"
+                onDelete={() => removeBulletList(bullet)}
+              />
+            ))}
+            <button
+              type="button"
+              className="add-bullet"
+              onClick={AddBulletList}
+            >
+              Add Bullet Point
+            </button>
+          </div>
+
+          <div className="form-buttons">
+            <button className="save">Save</button>
+            <button type="button" className="cancel" onClick={onClose}>
+              Cancel
+            </button>
+          </div>
+
+          <button type="button" className="remove-experience">
+            Remove Education
+          </button>
         </form>
       </div>
     </div>
@@ -132,19 +176,89 @@ function LevelOfEducation() {
   );
 }
 
+function ToggleHideButton({ isHidden, onClick }) {
+  if (isHidden) {
+    return (
+      <button className="hide">
+        <img src={hideIcon} alt="hide" onClick={onClick} />
+      </button>
+    );
+  }
+
+  if (!isHidden) {
+    return (
+      <button className="unhide">
+        <img src={unhideIcon} alt="hide" onClick={onClick} />
+      </button>
+    );
+  }
+}
+
+function EducationList({ data }) {
+  console.log(data);
+  const [isHidden, setIsHidden] = useState(false);
+
+  return (
+    <div className="education-list-wrapper">
+      <button className="drag">
+        <img src={dragIcon} alt="drag" />
+      </button>
+      <div className="education-list">
+        <div className="education-details">
+          <p className="list-name">{data.schoolName}</p>
+        </div>
+
+        <div className="experience-buttons">
+          <button className="edit">
+            <img src={editIcon} alt="edit" />
+          </button>
+
+          <ToggleHideButton
+            key="hide"
+            isHidden={isHidden}
+            onClick={() => setIsHidden(!isHidden)}
+          />
+
+          <button className="delete">
+            <img src={closeIcon} alr="delete" />
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function Education() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [educationDetails, setEducationDetails] = useState([]);
+
+  const handleSaveEducation = (newEducation) => {
+    setEducationDetails((prev) => [
+      ...prev,
+      { ...newEducation, id: `${prev.length}` },
+    ]);
+    setIsModalOpen(false);
+  };
+
   return (
     <section className="education">
       <h3>Education</h3>
 
+      {educationDetails.map((educ) => (
+        <EducationList key={educ.id} data={educ} />
+      ))}
       <button
         className="add-education"
         onClick={() => setIsModalOpen(!isModalOpen)}
       >
         Add Education
       </button>
-      <Modal isOpen={isModalOpen} />
+
+      <Modal
+        isOpen={isModalOpen}
+        onSave={handleSaveEducation}
+        onClose={() => setIsModalOpen(false)}
+      />
     </section>
   );
 }

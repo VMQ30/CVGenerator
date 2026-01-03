@@ -19,7 +19,7 @@ export function TextArea({ id, label, placeholder }) {
   );
 }
 
-export function EditableBulletItem({ id, label, placeholder, onDelete }) {
+export function EditableBulletItem({ id, label, placeholder }) {
   return (
     <div className="bullet-list-container">
       <button className="drag">
@@ -28,7 +28,7 @@ export function EditableBulletItem({ id, label, placeholder, onDelete }) {
       <div className="bullet-list">
         <div className="list-header">
           <label htmlFor={id}>{label}</label>
-          <button className="close-button" onClick={onDelete}>
+          <button className="close-button">
             <img src={closeIcon} alt="Close" />
           </button>
         </div>
