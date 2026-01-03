@@ -1,6 +1,7 @@
 import { Navbar } from "./components/Navbar";
 import { WorkExperience } from "./components/WorkExperience";
 import { PersonalDetails } from "./components/PersonalDetails";
+import { Education } from "./components/Education";
 import { useState } from "react";
 
 export function App() {
@@ -12,6 +13,8 @@ export function App() {
         return <PersonalDetails />;
       case "Work Experience":
         return <WorkExperience />;
+      case "Education":
+        return <Education />;
     }
   };
 

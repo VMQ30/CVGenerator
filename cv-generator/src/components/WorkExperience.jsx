@@ -11,7 +11,11 @@ function Modal({ isOpen, onSave, onClose }) {
   const [bulletList, setbulletList] = useState([]);
 
   function addBullet() {
-    setbulletList((prevNum) => [...prevNum, `responsibility${prevNum.length}`]);
+    setbulletList((prevNum) => [...prevNum, `responsibility${Date.now()}`]);
+  }
+
+  function deleteBullet(delId) {
+    setbulletList((prev) => prev.filter((id) => id !== delId));
   }
 
   function handleSubmit(e) {
@@ -59,14 +63,6 @@ function Modal({ isOpen, onSave, onClose }) {
               type="date"
               placeholder="Present"
             />
-
-            <input
-              id="workPresent"
-              name="workPresent"
-              type="checkbox"
-              placeholder="yes"
-            />
-            <label htmlFor="workPresent">Currently Working Here</label>
           </div>
 
           <TextBox
@@ -89,6 +85,7 @@ function Modal({ isOpen, onSave, onClose }) {
                 id={bullet}
                 label="Responsibility/Achievement"
                 placeholder="e.g. Led a cross-functional team to improve checkout performance by 25%"
+                onDelete={() => deleteBullet(bullet)}
               />
             ))}
             <button type="button" className="add-bullet" onClick={addBullet}>
