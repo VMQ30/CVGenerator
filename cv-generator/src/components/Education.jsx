@@ -195,7 +195,6 @@ function ToggleHideButton({ isHidden, onClick }) {
 }
 
 function EducationList({ data }) {
-  console.log(data);
   const [isHidden, setIsHidden] = useState(false);
 
   return (

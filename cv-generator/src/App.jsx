@@ -2,6 +2,7 @@ import { Navbar } from "./components/Navbar";
 import { WorkExperience } from "./components/WorkExperience";
 import { PersonalDetails } from "./components/PersonalDetails";
 import { Education } from "./components/Education";
+import { SkillsAndCertifications } from "./components/SkillsAndCertifications";
 import { useState } from "react";
 
 export function App() {
@@ -15,6 +16,8 @@ export function App() {
         return <WorkExperience />;
       case "Education":
         return <Education />;
+      case "Skills & Certifications":
+        return <SkillsAndCertifications />;
     }
   };
 
