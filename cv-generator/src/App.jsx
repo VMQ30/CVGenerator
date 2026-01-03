@@ -10,7 +10,7 @@ export function App() {
     personalDetails: {},
     workExperience: [],
     education: [],
-    skillsAndCertifications: [],
+    skillsAndCertifications: {},
   });
 
   const updateResumeData = (data, category) => {
@@ -46,7 +46,12 @@ export function App() {
           />
         );
       case "Skills & Certifications":
-        return <SkillsAndCertifications />;
+        return (
+          <SkillsAndCertifications
+            skillsData={resumeData.skillsAndCertifications}
+            setSkillsData={updateResumeData}
+          />
+        );
     }
   };
 
