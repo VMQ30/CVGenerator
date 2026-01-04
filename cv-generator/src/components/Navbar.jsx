@@ -4,7 +4,7 @@ const navSections = [
   "Education",
   "Skills & Certifications",
   "Technical Projects",
-  "Achievements or Awards",
+  "Achievements & Awards",
   "Additional",
   "Export",
 ];
