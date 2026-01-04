@@ -3,6 +3,7 @@ import { WorkExperience } from "./components/WorkExperience";
 import { PersonalDetails } from "./components/PersonalDetails";
 import { Education } from "./components/Education";
 import { SkillsAndCertifications } from "./components/SkillsAndCertifications";
+import { TechnicalProjects } from "./components/TechnicalProjects";
 import { useState } from "react";
 
 export function App() {
@@ -11,6 +12,7 @@ export function App() {
     workExperience: [],
     education: [],
     skillsAndCertifications: {},
+    technicalProjects: [],
   });
 
   const updateResumeData = (data, category) => {
@@ -50,6 +52,13 @@ export function App() {
           <SkillsAndCertifications
             skillsData={resumeData.skillsAndCertifications}
             setSkillsData={updateResumeData}
+          />
+        );
+      case "Technical Projects":
+        return (
+          <TechnicalProjects
+            projectsList={resumeData.technicalProjects}
+            setProjectsList={updateResumeData}
           />
         );
     }

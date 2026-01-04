@@ -1,0 +1,171 @@
+import dragIcon from "../assets/drag.svg";
+import closeIcon from "../assets/close.svg";
+import editIcon from "../assets/edit.svg";
+import hideIcon from "../assets/hide.svg";
+import unhideIcon from "../assets/unhide.svg";
+import { useState } from "react";
+import { TextBox, EditableBulletItem } from "./Input";
+
+export function Modal({ isOpen, onSave, onClose }) {
+  if (!isOpen) return null;
+  const [bulletList, setBulletList] = useState([]);
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const data = Object.fromEntries(formData.entries());
+
+    const bullets = bulletList.map((bullet) => data[bullet]);
+    const finalData = { ...data, bullets };
+
+    onSave(finalData);
+    setBulletList([]);
+  }
+
+  function AddBulletList() {
+    setBulletList((prev) => [...prev, `project-${Date.now()}`]);
+  }
+
+  function RemoveBulletList(delId) {
+    setBulletList((prev) => prev.filter((id) => id !== delId));
+  }
+
+  return (
+    <div className="modal-container">
+      <div className="modal">
+        <form className="add-project" onSubmit={handleSubmit}>
+          <TextBox
+            id="projectName"
+            label="* Project Name"
+            type="text"
+            placeholder="Name of the project"
+          />
+
+          <TextBox
+            id="projectRole"
+            label="* Project Role"
+            type="text"
+            placeholder="Your Role for the project"
+          />
+
+          <TextBox
+            id="projectLink"
+            label="Project Link"
+            type="link"
+            placeholder="Link of the project"
+          />
+
+          {bulletList.map((bullet) => (
+            <EditableBulletItem
+              id={bullet}
+              key={bullet}
+              label="Project Details"
+              placeholder="details"
+              onDelete={() => RemoveBulletList(bullet)}
+            />
+          ))}
+
+          <div className="form-buttons">
+            <button className="save">Save</button>
+            <button type="button" className="cancel" onClick={onClose}>
+              Cancel
+            </button>
+          </div>
+
+          <button
+            type="button"
+            className="add-bullet-project"
+            onClick={AddBulletList}
+          >
+            Add Bullet Point
+          </button>
+        </form>
+      </div>
+    </div>
+  );
+}
+
+function ToggleHideButton({ isHidden, onClick }) {
+  if (isHidden) {
+    return (
+      <button className="hide">
+        <img src={hideIcon} alt="hide" onClick={onClick} />
+      </button>
+    );
+  }
+
+  if (!isHidden) {
+    return (
+      <button className="unhide">
+        <img src={unhideIcon} alt="hide" onClick={onClick} />
+      </button>
+    );
+  }
+}
+
+function ProjectList({ data }) {
+  console.log(data);
+  const [isHidden, setIsHidden] = useState(false);
+  return (
+    <div className="education-list-wrapper">
+      <button className="drag">
+        <img src={dragIcon} alt="drag" />
+      </button>
+      <div className="project-list">
+        <div className="project-details">
+          <p className="list-name">{data.projectName} - </p>
+          <p className="list-name">{data.projectRole}</p>
+        </div>
+
+        <div className="experience-buttons">
+          <button className="edit">
+            <img src={editIcon} alt="edit" />
+          </button>
+
+          <ToggleHideButton
+            key="hide"
+            isHidden={isHidden}
+            onClick={() => setIsHidden(!isHidden)}
+          />
+
+          <button className="delete">
+            <img src={closeIcon} alr="delete" />
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export function TechnicalProjects({ projectsList, setProjectsList }) {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const currentList = projectsList || [];
+
+  const handleSaveProject = (newProject) => {
+    const updatedList = [
+      ...currentList,
+      { ...newProject, id: `${currentList.length}-${Date.now()}` },
+    ];
+    setProjectsList(updatedList, "technicalProjects");
+    setIsModalOpen(false);
+    console.log(updatedList);
+  };
+
+  return (
+    <section className="projects">
+      <h3>Technical Projects</h3>
+      {currentList.map((project) => (
+        <ProjectList key={project.id} data={project} />
+      ))}
+      <button className="add-projects" onClick={() => setIsModalOpen(true)}>
+        Add Project
+      </button>
+
+      <Modal
+        isOpen={isModalOpen}
+        onSave={handleSaveProject}
+        onClose={() => setIsModalOpen(false)}
+      />
+    </section>
+  );
+}

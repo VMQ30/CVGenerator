@@ -4,7 +4,7 @@ import dragIcon from "../assets/drag.svg";
 import closeIcon from "../assets/close.svg";
 import { useState } from "react";
 
-export function EditableBulletItem({
+function EditableBulletItem({
   id,
   label,
   placeholder,
