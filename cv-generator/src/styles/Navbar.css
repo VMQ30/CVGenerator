@@ -10,12 +10,17 @@ nav {
   overflow-y: auto;
   justify-content: space-between;
   gap: 3px;
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x mandatory;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 nav button {
   border-radius: 10px 10px 0 0;
   border-bottom: none;
   outline: none;
+  scroll-snap-align: start;
 }
 
 nav button:focus,
@@ -23,6 +28,10 @@ nav button:hover {
   outline: none;
   box-shadow: 0 0px 10px #33367a71;
   border-color: transparent;
+}
+
+nav button:active {
+  background-color: #f1f1f8;
 }
 
 .selected {

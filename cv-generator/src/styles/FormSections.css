@@ -19,3 +19,85 @@ form div {
   display: flex;
   flex-direction: column;
 }
+
+section h3 {
+  font-size: 2rem;
+}
+
+section div {
+  margin-bottom: 20px;
+}
+
+section label {
+  font-size: 1.2rem;
+}
+
+section input,
+section textarea {
+  padding: 7px 5px;
+  margin-top: 5px;
+  border: 2px solid #c7c7df;
+  border-radius: 5px;
+  caret-color: #33377a;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  width: 100%;
+  resize: none;
+}
+
+section input:active,
+section input:focus,
+section textarea:active,
+section textarea:focus {
+  outline-color: #646cff;
+}
+
+.modal-container {
+  position: fixed;
+  background-color: rgba(0, 0, 0, 0.5);
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+
+.modal {
+  overflow-y: auto;
+  background-color: #dbdbeb;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 10px;
+  border: 2px solid #646cff;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+
+  width: 40vw;
+  height: auto;
+  padding: 40px;
+  max-height: 90vh;
+}
+
+.date,
+.form-buttons {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+  flex-wrap: wrap;
+  margin-bottom: 0;
+}
+
+.date div,
+.form-buttons button {
+  flex: 1;
+}
+
+@media (max-width: 768px) {
+  .modal {
+    width: 80vw;
+    height: auto;
+    padding: 30px;
+  }
+}
