@@ -3,11 +3,12 @@ h3 {
 }
 
 section {
+  min-width: 0;
+  flex: 1;
   display: flex;
   flex-direction: column;
-  padding: 20px;
-  width: clamp(10vw, 20vw, 40vw);
-  border: 2px solid black;
+  padding: clamp(20px, 5vw, 40px);
+  border-radius: 13px;
 }
 
 form {

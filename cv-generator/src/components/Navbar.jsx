@@ -1,3 +1,5 @@
+import "../styles/Navbar.css";
+
 const navSections = [
   "Personal Details",
   "Work Experience",
@@ -20,14 +22,16 @@ function Button({ label, onClick, isActive }) {
 export function Navbar({ currentSection, setCurrentSection }) {
   return (
     <nav>
-      {navSections.map((section) => (
-        <Button
-          key={section}
-          label={section}
-          onClick={() => setCurrentSection(section)}
-          isActive={currentSection === section}
-        />
-      ))}
+      <div className="nav-wrapper">
+        {navSections.map((section) => (
+          <Button
+            key={section}
+            label={section}
+            onClick={() => setCurrentSection(section)}
+            isActive={currentSection === section}
+          />
+        ))}
+      </div>
     </nav>
   );
 }

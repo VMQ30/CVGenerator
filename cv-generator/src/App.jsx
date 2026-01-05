@@ -5,7 +5,11 @@ import { Education } from "./components/Education";
 import { SkillsAndCertifications } from "./components/SkillsAndCertifications";
 import { TechnicalProjects } from "./components/TechnicalProjects";
 import { AchievementsAndAwards } from "./components/AchievementsAndAwards";
+import { LiveView } from "./components/LiveVIew";
 import { useState } from "react";
+
+import "./styles/App.css";
+import "./styles/FormSections.css";
 
 export function App() {
   const [resumeData, setResumeData] = useState({
@@ -74,13 +78,16 @@ export function App() {
   };
 
   return (
-    <div className="main-forms">
+    <div className="resume-container">
       <Navbar
         currentSection={currentSection}
         setCurrentSection={setCurrentSection}
       />
 
-      <div className="form-area">{renderSection()}</div>
+      <main className="main-area">
+        {renderSection()}
+        <LiveView />
+      </main>
     </div>
   );
 }

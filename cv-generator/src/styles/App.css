@@ -1,0 +1,36 @@
+.resume-container {
+  width: 100%;
+  height: 100%;
+  padding: clamp(20px, 5vw, 40px);
+}
+
+.main-area {
+  flex-wrap: wrap;
+  padding: 20px;
+  display: flex;
+  gap: clamp(10px, 5vw, 40px);
+  overflow-y: auto;
+  min-width: 0;
+  background-color: #e5e5f0;
+}
+
+.live-view-wrapper,
+section {
+  background-color: #fafafa;
+  flex: 1 1 300px;
+  min-width: 300px;
+}
+
+.live-view-wrapper {
+  flex: 2;
+}
+
+.live-view-page {
+  background-color: #fafafa;
+  aspect-ratio: 8.5/11;
+  max-width: 8.5in;
+  width: 100%;
+  padding: clamp(10px, 5vw, 1in);
+  box-sizing: border-box;
+  box-shadow: 0 10px 20px #cbd4d8;
+}

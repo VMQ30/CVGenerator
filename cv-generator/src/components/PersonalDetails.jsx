@@ -1,5 +1,3 @@
-import "../styles/PersonalDetails.css";
-
 function TextBox({ id, type, placeholder, label, value, onChange }) {
   return (
     <div>
@@ -67,7 +65,7 @@ export function PersonalDetails({ personalList, setPersonalList }) {
 
         <TextBox
           id="portfolio"
-          type="text"
+          type="url"
           placeholder="https://github.com/samplename"
           label="* Portfolio/Github Link: "
           value={currentList.portfolio}

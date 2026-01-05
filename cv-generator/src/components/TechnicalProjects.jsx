@@ -51,7 +51,7 @@ export function Modal({ isOpen, onSave, onClose }) {
           <TextBox
             id="projectLink"
             label="Project Link"
-            type="link"
+            type="url"
             placeholder="Link of the project"
           />
 
