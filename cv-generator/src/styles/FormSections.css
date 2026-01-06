@@ -206,12 +206,14 @@ section textarea:focus {
   outline: 2px solid #646cff;
 }
 
-.education-list-wrapper {
+.education-list-wrapper,
+.experience-list-wrapper {
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
   align-items: flex-start;
   gap: 10px;
+  margin: 0;
   button {
     background-color: #646cff;
     padding: 0;
@@ -228,10 +230,15 @@ section textarea:focus {
   }
 }
 
-.education-list {
+.education-list,
+.experience-list,
+.project-list {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  margin: 0;
   width: 100%;
+  flex-wrap: wrap;
 
   p {
     font-size: 1.1rem;
@@ -239,9 +246,17 @@ section textarea:focus {
   }
 }
 
+.experience-details,
+.project-details {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
 .experience-buttons {
   display: flex;
   gap: 3px;
+  margin-left: auto;
 }
 
 .add-education,

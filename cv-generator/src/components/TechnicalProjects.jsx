@@ -156,7 +156,8 @@ function ProjectList({ data }) {
       </button>
       <div className="project-list">
         <div className="project-details">
-          <p className="list-name">{data.projectName} - </p>
+          <p className="list-name">{data.projectName}</p>
+          <p>-</p>
           <p className="list-name">{data.projectRole}</p>
         </div>
 

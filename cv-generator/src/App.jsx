@@ -77,6 +77,7 @@ export function App() {
     }
   };
 
+  // console.log(resumeData);
   return (
     <div className="resume-container">
       <Navbar
@@ -86,7 +87,7 @@ export function App() {
 
       <main className="main-area">
         {renderSection()}
-        <LiveView />
+        <LiveView resumeData={resumeData} />
       </main>
     </div>
   );

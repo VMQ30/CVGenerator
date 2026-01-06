@@ -32,7 +32,7 @@ section {
   aspect-ratio: 8.5/11;
   max-width: 8.5in;
   width: 100%;
-  padding: clamp(10px, 5vw, 1in);
+  padding: clamp(10px, 5vw, 50px);
   box-sizing: border-box;
   box-shadow: 0 0px 20px #cbd4d8;
 }

@@ -182,7 +182,8 @@ function ExperienceList({ data }) {
       </button>
       <div className="experience-list">
         <div className="experience-details">
-          <p className="list-name">{data.companyName} - </p>
+          <p className="list-name">{data.companyName}</p>
+          <p>-</p>
           <p className="list-title">{data.jobTitle}</p>
         </div>
 
@@ -223,14 +224,14 @@ export function WorkExperience({ workList, setWorkList }) {
   return (
     <section>
       <h3>Work Experience</h3>
-      <button onClick={() => setIsModalOpen(!isModalOpen)}>
-        Add Work Experience
-      </button>
 
       {currentList.map((experience) => (
         <ExperienceList key={experience.id} data={experience} />
       ))}
 
+      <button onClick={() => setIsModalOpen(!isModalOpen)}>
+        Add Work Experience
+      </button>
       <Modal
         isOpen={isModalOpen}
         onSave={handleSaveExperience}
