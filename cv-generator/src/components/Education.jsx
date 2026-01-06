@@ -3,12 +3,46 @@ import closeIcon from "../assets/close.svg";
 import editIcon from "../assets/edit.svg";
 import hideIcon from "../assets/hide.svg";
 import unhideIcon from "../assets/unhide.svg";
+import {
+  DndContext,
+  TouchSensor,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from "@dnd-kit/core";
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
 import { useState } from "react";
 import { TextBox, EditableBulletItem } from "./Input";
 
 function Modal({ isOpen, onSave, onClose }) {
   const [bulletList, setBulletList] = useState([]);
   const [honorsList, setHonorsList] = useState([]);
+
+  const sensors = useSensors(
+    useSensor(PointerSensor, { activationConstraint: { distance: 8 } }),
+    useSensor(TouchSensor, {
+      activationConstraint: { delay: 250, tolerance: 5 },
+    }),
+    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates })
+  );
+
+  function handleDragEnd(event, list, setList) {
+    const { active, over } = event;
+    if (active.id !== over?.id) {
+      setList((items) => {
+        const oldIndex = items.indexOf(active.id);
+        const newIndex = items.indexOf(over.id);
+        return arrayMove(items, oldIndex, newIndex);
+      });
+    }
+  }
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -80,35 +114,54 @@ function Modal({ isOpen, onSave, onClose }) {
           <TextBox id="gpa" label="GPA" type="text" placeholder="3.5" />
 
           <div className="honors-list">
-            {honorsList.map((honors) => (
-              <EditableBulletItem
-                key={honors}
-                id={honors}
-                label="Honors/Extracurriculars"
-                placeholder="Dean's List, Summa Cum Laude, Organization President"
-                onDelete={() => removeHonorsList(honors)}
-              />
-            ))}
-
+            <DndContext
+              sensors={sensors}
+              collisionDetection={closestCenter}
+              onDragEnd={(e) => handleDragEnd(e, honorsList, setHonorsList)}
+            >
+              <SortableContext
+                items={honorsList}
+                strategy={verticalListSortingStrategy}
+              >
+                {honorsList.map((id) => (
+                  <EditableBulletItem
+                    key={id}
+                    id={id}
+                    label="Honors/Extracurriculars"
+                    onDelete={() => removeHonorsList(id)}
+                  />
+                ))}
+              </SortableContext>
+            </DndContext>
             <button
               type="button"
               className="honors-button"
               onClick={AddHonorsList}
             >
-              Add Honors and Extracurricular
+              Add Honor
             </button>
           </div>
 
           <div className="educ-details">
-            {bulletList.map((bullet) => (
-              <EditableBulletItem
-                id={bullet}
-                key={bullet}
-                label="Education Details"
-                placeholder="details"
-                onDelete={() => removeBulletList(bullet)}
-              />
-            ))}
+            <DndContext
+              sensors={sensors}
+              collisionDetection={closestCenter}
+              onDragEnd={(e) => handleDragEnd(e, bulletList, setBulletList)}
+            >
+              <SortableContext
+                items={bulletList}
+                strategy={verticalListSortingStrategy}
+              >
+                {bulletList.map((id) => (
+                  <EditableBulletItem
+                    key={id}
+                    id={id}
+                    label="Education Details"
+                    onDelete={() => removeBulletList(id)}
+                  />
+                ))}
+              </SortableContext>
+            </DndContext>
             <button
               type="button"
               className="add-bullet"

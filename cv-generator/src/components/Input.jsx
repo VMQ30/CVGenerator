@@ -1,5 +1,7 @@
 import dragIcon from "../assets/drag.svg";
 import closeIcon from "../assets/close.svg";
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 
 export function TextBox({ id, type, placeholder, label }) {
   return (
@@ -20,9 +22,26 @@ export function TextArea({ id, label, placeholder }) {
 }
 
 export function EditableBulletItem({ id, label, placeholder, onDelete }) {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id: id });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    zIndex: isDragging ? 100 : 1,
+    position: "relative",
+    opacity: isDragging ? 0.8 : 1,
+  };
+
   return (
-    <div className="bullet-list-container">
-      <button className="drag">
+    <div ref={setNodeRef} style={style} className="bullet-list-container">
+      <button type="button" className="drag" {...attributes} {...listeners}>
         <img src={dragIcon} alt="drag" />
       </button>
       <div className="bullet-list">

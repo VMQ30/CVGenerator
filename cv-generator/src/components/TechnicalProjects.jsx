@@ -3,12 +3,46 @@ import closeIcon from "../assets/close.svg";
 import editIcon from "../assets/edit.svg";
 import hideIcon from "../assets/hide.svg";
 import unhideIcon from "../assets/unhide.svg";
+import {
+  DndContext,
+  TouchSensor,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from "@dnd-kit/core";
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
 import { useState } from "react";
 import { TextBox, EditableBulletItem } from "./Input";
 
 export function Modal({ isOpen, onSave, onClose }) {
   if (!isOpen) return null;
   const [bulletList, setBulletList] = useState([]);
+
+  const sensors = useSensors(
+    useSensor(PointerSensor, { activationConstraint: { distance: 8 } }),
+    useSensor(TouchSensor, {
+      activationConstraint: { delay: 250, tolerance: 5 },
+    }),
+    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates })
+  );
+
+  function handleDragEnd(event, list, setList) {
+    const { active, over } = event;
+    if (active.id !== over?.id) {
+      setList((items) => {
+        const oldIndex = items.indexOf(active.id);
+        const newIndex = items.indexOf(over.id);
+        return arrayMove(items, oldIndex, newIndex);
+      });
+    }
+  }
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -55,15 +89,26 @@ export function Modal({ isOpen, onSave, onClose }) {
             placeholder="Link of the project"
           />
 
-          {bulletList.map((bullet) => (
-            <EditableBulletItem
-              id={bullet}
-              key={bullet}
-              label="Project Details"
-              placeholder="details"
-              onDelete={() => RemoveBulletList(bullet)}
-            />
-          ))}
+          <DndContext
+            sensors={sensors}
+            collisionDetection={closestCenter}
+            onDragEnd={(e) => handleDragEnd(e, bulletList, setBulletList)}
+          >
+            <SortableContext
+              items={bulletList}
+              strategy={verticalListSortingStrategy}
+            >
+              {bulletList.map((bullet) => (
+                <EditableBulletItem
+                  id={bullet}
+                  key={bullet}
+                  label="Project Details"
+                  placeholder="details"
+                  onDelete={() => RemoveBulletList(bullet)}
+                />
+              ))}
+            </SortableContext>
+          </DndContext>
 
           <div className="form-buttons">
             <button className="save">Save</button>

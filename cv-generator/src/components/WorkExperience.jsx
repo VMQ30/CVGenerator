@@ -4,11 +4,46 @@ import editIcon from "../assets/edit.svg";
 import hideIcon from "../assets/hide.svg";
 import unhideIcon from "../assets/unhide.svg";
 
+import {
+  DndContext,
+  TouchSensor,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from "@dnd-kit/core";
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
+
 import { useState } from "react";
 import { TextBox, TextArea, EditableBulletItem } from "./Input";
 
 function Modal({ isOpen, onSave, onClose }) {
   const [bulletList, setbulletList] = useState([]);
+
+  const sensors = useSensors(
+    useSensor(PointerSensor, { activationConstraint: { distance: 8 } }),
+    useSensor(TouchSensor, {
+      activationConstraint: { delay: 250, tolerance: 5 },
+    }),
+    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates })
+  );
+
+  function handleDragEnd(event, list, setList) {
+    const { active, over } = event;
+    if (active.id !== over?.id) {
+      setList((items) => {
+        const oldIndex = items.indexOf(active.id);
+        const newIndex = items.indexOf(over.id);
+        return arrayMove(items, oldIndex, newIndex);
+      });
+    }
+  }
 
   function addBullet() {
     setbulletList((prevNum) => [...prevNum, `responsibility${Date.now()}`]);
@@ -79,15 +114,26 @@ function Modal({ isOpen, onSave, onClose }) {
           />
 
           <div className="modal-responsibility">
-            {bulletList.map((bullet) => (
-              <EditableBulletItem
-                key={bullet}
-                id={bullet}
-                label="Responsibility/Achievement"
-                placeholder="e.g. Led a cross-functional team to improve checkout performance by 25%"
-                onDelete={() => deleteBullet(bullet)}
-              />
-            ))}
+            <DndContext
+              sensors={sensors}
+              collisionDetection={closestCenter}
+              onDragEnd={(e) => handleDragEnd(e, bulletList, setbulletList)}
+            >
+              <SortableContext
+                items={bulletList}
+                strategy={verticalListSortingStrategy}
+              >
+                {bulletList.map((bullet) => (
+                  <EditableBulletItem
+                    key={bullet}
+                    id={bullet}
+                    label="Responsibility/Achievement"
+                    placeholder="e.g. Led a cross-functional team to improve checkout performance by 25%"
+                    onDelete={() => deleteBullet(bullet)}
+                  />
+                ))}
+              </SortableContext>
+            </DndContext>
             <button type="button" className="add-bullet" onClick={addBullet}>
               Add Bullet Point
             </button>
