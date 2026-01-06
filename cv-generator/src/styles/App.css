@@ -6,12 +6,13 @@
 
 .main-area {
   flex-wrap: wrap;
-  padding: 20px;
   display: flex;
   gap: clamp(10px, 5vw, 40px);
   overflow-y: auto;
   min-width: 0;
-  background-color: #e5e5f0;
+  background-color: #f6f7f9;
+  padding-top: 20px;
+  padding-bottom: 20px;
 }
 
 .live-view-wrapper,
@@ -19,6 +20,7 @@ section {
   background-color: #fafafa;
   flex: 1 1 300px;
   min-width: 300px;
+  box-sizing: border-box;
 }
 
 .live-view-wrapper {
@@ -32,5 +34,5 @@ section {
   width: 100%;
   padding: clamp(10px, 5vw, 1in);
   box-sizing: border-box;
-  box-shadow: 0 10px 20px #cbd4d8;
+  box-shadow: 0 0px 20px #cbd4d8;
 }

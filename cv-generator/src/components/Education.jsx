@@ -83,7 +83,7 @@ function Modal({ isOpen, onSave, onClose }) {
             id="schoolName"
             label="* School/University Name"
             type="text"
-            placeholder="University of..."
+            placeholder="e.g. University of the Philippines"
           />
 
           <LevelOfEducation />
@@ -108,10 +108,10 @@ function Modal({ isOpen, onSave, onClose }) {
             id="location-school"
             label="Location"
             type="text"
-            placeholder="Makati"
+            placeholder="e.g. Sampaloc, Manila"
           />
 
-          <TextBox id="gpa" label="GPA" type="text" placeholder="3.5" />
+          <TextBox id="gpa" label="GPA" type="text" placeholder="e.g. 1.25" />
 
           <div className="honors-list">
             <DndContext
@@ -128,6 +128,7 @@ function Modal({ isOpen, onSave, onClose }) {
                     key={id}
                     id={id}
                     label="Honors/Extracurriculars"
+                    placeholder="e.g. Cum Laude, DOST Scholar"
                     onDelete={() => removeHonorsList(id)}
                   />
                 ))}
@@ -138,7 +139,7 @@ function Modal({ isOpen, onSave, onClose }) {
               className="honors-button"
               onClick={AddHonorsList}
             >
-              Add Honor
+              Add Honors and Extracurriculars
             </button>
           </div>
 
@@ -157,6 +158,7 @@ function Modal({ isOpen, onSave, onClose }) {
                     key={id}
                     id={id}
                     label="Education Details"
+                    placeholder="e.g. Capstone: E-Commerce App with SMS API"
                     onDelete={() => removeBulletList(id)}
                   />
                 ))}
@@ -202,19 +204,21 @@ function LevelOfEducation() {
   };
   return (
     <>
-      <label htmlFor="educLevel">* Education Level</label>
-      <select
-        name="educLevel"
-        id="educLevel"
-        value={levelOfEduc}
-        onChange={handleSelectChange}
-      >
-        {levelList.map((level) => (
-          <option key={level} id={level}>
-            {level}
-          </option>
-        ))}
-      </select>
+      <div>
+        <label htmlFor="educLevel">* Education Level</label>
+        <select
+          name="educLevel"
+          id="educLevel"
+          value={levelOfEduc}
+          onChange={handleSelectChange}
+        >
+          {levelList.map((level) => (
+            <option key={level} id={level}>
+              {level}
+            </option>
+          ))}
+        </select>
+      </div>
 
       {(levelOfEduc === "Tertiary Education" ||
         levelOfEduc === "Postgraduate Education") && (

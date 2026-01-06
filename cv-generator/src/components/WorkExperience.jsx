@@ -74,14 +74,14 @@ function Modal({ isOpen, onSave, onClose }) {
             id="companyName"
             label="* Company Name"
             type="text"
-            placeholder="e.g. Google, Stripe, or Freelance"
+            placeholder="e.g. Accenture, GCash, or Maya"
           />
 
           <TextBox
             id="jobTitle"
             label="* Job Title"
             type="text"
-            placeholder="e.g. Senior Product Designer"
+            placeholder="e.g. Associate Software Engineer"
           />
 
           <div className="date">
@@ -104,13 +104,13 @@ function Modal({ isOpen, onSave, onClose }) {
             id="jobLocation"
             label="* Job Location"
             type="text"
-            placeholder="e.g. New York, NY or Remote"
+            placeholder="e.g. BGC, Taguig"
           />
 
           <TextArea
             id="companyDesc"
             label="* Company Description"
-            placeholder="e.g. A Fortune 500 fintech leader with over $200M in annual revenue, specializing in global payment processing."
+            placeholder="e.g. A leading digital bank in the Philippines serving over 1M users."
           />
 
           <div className="modal-responsibility">
@@ -128,7 +128,7 @@ function Modal({ isOpen, onSave, onClose }) {
                     key={bullet}
                     id={bullet}
                     label="Responsibility/Achievement"
-                    placeholder="e.g. Led a cross-functional team to improve checkout performance by 25%"
+                    placeholder="e.g. Developed RESTful APIs using Node.js for a local logistics app."
                     onDelete={() => deleteBullet(bullet)}
                   />
                 ))}

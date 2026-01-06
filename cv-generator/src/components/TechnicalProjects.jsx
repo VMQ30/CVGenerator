@@ -72,21 +72,21 @@ export function Modal({ isOpen, onSave, onClose }) {
             id="projectName"
             label="* Project Name"
             type="text"
-            placeholder="Name of the project"
+            placeholder="e.g. Healthcare Analytics Dashboard"
           />
 
           <TextBox
             id="projectRole"
             label="* Project Role"
             type="text"
-            placeholder="Your Role for the project"
+            placeholder="e.g. Frontend Developer"
           />
 
           <TextBox
             id="projectLink"
             label="Project Link"
             type="url"
-            placeholder="Link of the project"
+            placeholder="https:github.com/projectname"
           />
 
           <DndContext
@@ -102,7 +102,7 @@ export function Modal({ isOpen, onSave, onClose }) {
                 <EditableBulletItem
                   id={bullet}
                   key={bullet}
-                  label="Project Details"
+                  label="e.g. Implemented real-time data visualization using D3.js"
                   placeholder="details"
                   onDelete={() => RemoveBulletList(bullet)}
                 />
@@ -110,19 +110,17 @@ export function Modal({ isOpen, onSave, onClose }) {
             </SortableContext>
           </DndContext>
 
+          <button type="button" className="add-bullet" onClick={AddBulletList}>
+            Add Bullet Point
+          </button>
           <div className="form-buttons">
             <button className="save">Save</button>
             <button type="button" className="cancel" onClick={onClose}>
               Cancel
             </button>
           </div>
-
-          <button
-            type="button"
-            className="add-bullet-project"
-            onClick={AddBulletList}
-          >
-            Add Bullet Point
+          <button type="button" className="remove-experience">
+            Remove Project
           </button>
         </form>
       </div>

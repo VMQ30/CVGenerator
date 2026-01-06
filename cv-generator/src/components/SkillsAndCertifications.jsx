@@ -83,6 +83,7 @@ function CategoryButton({
   deleteItems,
   onItemChange,
   onReorder,
+  placeholder,
 }) {
   const [isDropDownOpen, setIsDropDownOpen] = useState(false);
 
@@ -104,6 +105,7 @@ function CategoryButton({
         deleteItems={deleteItems}
         onItemChange={onItemChange}
         onReorder={onReorder}
+        placeholder={placeholder}
       />
     </div>
   );
@@ -117,6 +119,7 @@ function DropDown({
   deleteItems,
   onItemChange,
   onReorder,
+  placeholder,
 }) {
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 8 } }),
@@ -156,7 +159,7 @@ function DropDown({
                 key={item.id}
                 id={item.id}
                 label={label}
-                placeholder={`Write Your ${label}`}
+                placeholder={placeholder}
                 onDelete={() => deleteItems(item.id)}
                 value={item.text}
                 onChange={(e) => onItemChange(item.id, e.target.value)}
@@ -176,6 +179,12 @@ function DropDown({
 
 export function SkillsAndCertifications({ skillsData, setSkillsData }) {
   const categories = ["Skills", "Technology", "Languages", "Certificates"];
+  const placeholders = {
+    Skills: "e.g. System Analysis, Technical Documentation",
+    Technology: "e.g. Python, Docker, PostgreSQL",
+    Languages: "e.g. English (Professional Proficiency)",
+    Certificates: "e.g. Cisco Certified Network Associate (CCNA)",
+  };
   const currentData = {
     Skills: skillsData?.Skills || [],
     Technology: skillsData?.Technology || [],
@@ -229,6 +238,7 @@ export function SkillsAndCertifications({ skillsData, setSkillsData }) {
           deleteItems={(id) => removeCategoryItem(id, category)}
           onItemChange={(id, text) => handleItemChange(category, id, text)}
           onReorder={(newItems) => handleReorder(category, newItems)}
+          placeholder={placeholders[category]}
         />
       ))}
     </section>

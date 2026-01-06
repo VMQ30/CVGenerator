@@ -3,16 +3,18 @@ h3 {
 }
 
 section {
-  min-width: 0;
   flex: 1;
   display: flex;
   flex-direction: column;
   padding: clamp(20px, 5vw, 40px);
   border-radius: 13px;
+  gap: 20px;
+  border: 2px solid #c7c7df;
 }
 
 form {
-  padding: 20px 0;
+  padding: 0 40px;
+  width: 100%;
 }
 
 form div {
@@ -33,12 +35,13 @@ section label {
 }
 
 section input,
-section textarea {
+section textarea,
+section select {
   padding: 7px 5px;
   margin-top: 5px;
   border: 2px solid #c7c7df;
   border-radius: 5px;
-  caret-color: #33377a;
+  caret-color: #646cff;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   width: 100%;
   resize: none;
@@ -62,13 +65,13 @@ section textarea:focus {
 
 .modal {
   overflow-y: auto;
-  background-color: #dbdbeb;
+  background-color: #f6f7f9;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   border-radius: 10px;
-  border: 2px solid #646cff;
+  border: 3px solid #c7c7df;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -78,6 +81,11 @@ section textarea:focus {
   height: auto;
   padding: 40px;
   max-height: 90vh;
+
+  label {
+    color: #33377a;
+    font-weight: 500;
+  }
 }
 
 .modal-responsibility {
@@ -99,6 +107,17 @@ section textarea:focus {
   flex: 1;
 }
 
+.form-buttons button {
+  background-color: #f6f7f9;
+  border: #6b6b93 2px solid;
+  color: #6b6b93;
+}
+
+.form-buttons button:hover {
+  color: #646cff;
+  background-color: transparent;
+}
+
 .add-bullet {
   background-color: #646cff;
   color: white;
@@ -106,9 +125,16 @@ section textarea:focus {
 }
 
 .remove-experience {
-  margin-top: 10px;
+  margin-top: 20px;
   width: 100%;
-  background-color: #33377a;
+  background-color: transparent;
+  border: 2px solid #ff4a0e;
+  color: #ff4a0e;
+}
+
+.remove-experience:hover {
+  background-color: #ff4a0e;
+  border-color: #ff4a0e;
   color: white;
 }
 
@@ -124,9 +150,10 @@ section textarea:focus {
     display: flex;
     justify-content: center;
     align-items: center;
+    max-width: 50px;
     img {
-      width: 20px;
-      height: 20px;
+      width: 30px;
+      height: 30px;
     }
   }
   .bullet-list {
@@ -137,6 +164,14 @@ section textarea:focus {
 .list-header {
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.bullet-list-container .close-button {
+  background-color: #ff4a0e;
+  max-width: 30px;
 }
 
 .drag {
@@ -147,16 +182,116 @@ section textarea:focus {
 .drag {
   touch-action: none;
   cursor: grab;
+  padding: 0;
+  background-color: transparent;
+  img {
+    width: 30px;
+    height: 30px;
+  }
 }
 
 .drag:active {
   cursor: grabbing;
 }
 
-@media (max-width: 768px) {
+.drag:hover,
+.drag:active,
+.drag:focus {
+  background-color: transparent;
+  border: none;
+  outline: none;
+}
+
+.drag:focus-visible {
+  outline: 2px solid #646cff;
+}
+
+.education-list-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 10px;
+  button {
+    background-color: #646cff;
+    padding: 0;
+    width: 35px;
+    height: 35px;
+    img {
+      width: 30px;
+      height: 30px;
+    }
+  }
+
+  .drag {
+    background-color: transparent;
+  }
+}
+
+.education-list {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+
+  p {
+    font-size: 1.1rem;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+  }
+}
+
+.experience-buttons {
+  display: flex;
+  gap: 3px;
+}
+
+.add-education,
+section button {
+  background-color: #646cff;
+  color: white;
+}
+
+.add-education:hover,
+section button:hover {
+  background-color: #868cff;
+}
+
+.category-button-header {
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  img {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+.drop-down-list {
+  display: flex;
+  flex-direction: column;
+}
+
+input[type="date"] {
+  cursor: text;
+}
+
+.add-project {
+  display: flex;
+  flex-direction: column;
+}
+
+.add-bullet-project {
+  margin-top: 20px;
+}
+
+@media (max-width: 950px) {
   .modal {
     width: 90vw;
     height: auto;
     padding: 20px;
+  }
+  form {
+    padding: 10px;
   }
 }

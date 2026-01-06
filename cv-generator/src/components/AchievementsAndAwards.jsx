@@ -83,6 +83,7 @@ function CategoryButton({
   deleteItems,
   onItemChange,
   onReorder,
+  placeholder,
 }) {
   const [isDropDownOpen, setIsDropDownOpen] = useState(false);
 
@@ -104,6 +105,7 @@ function CategoryButton({
         deleteItems={deleteItems}
         onItemChange={onItemChange}
         onReorder={onReorder}
+        placeholder={placeholder}
       />
     </div>
   );
@@ -117,6 +119,7 @@ function DropDown({
   deleteItems,
   onItemChange,
   onReorder,
+  placeholder,
 }) {
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 8 } }),
@@ -155,7 +158,7 @@ function DropDown({
                 key={item.id}
                 id={item.id}
                 label={label}
-                placeholder={`Write Your ${label}`}
+                placeholder={placeholder}
                 onDelete={() => deleteItems(item.id)}
                 value={item.text}
                 onChange={(e) => onItemChange(item.id, e.target.value)}
@@ -178,6 +181,10 @@ export function AchievementsAndAwards({
   setAchievementsList,
 }) {
   const categories = ["Achievements", "Awards"];
+  const categoryPlaceholders = {
+    Achievements: "e.g. Top 10 in the Licensure Examination for Teachers (LET)",
+    Awards: "e.g. Most Outstanding Student Award 2024",
+  };
   const currentData = {
     Achievements: achievementsList?.Achievements || [],
     Awards: achievementsList?.Awards || [],
@@ -229,6 +236,7 @@ export function AchievementsAndAwards({
           deleteItems={(id) => removeCategoryItem(id, category)}
           onItemChange={(id, text) => handleItemChange(category, id, text)}
           onReorder={(newItems) => handleReorder(category, newItems)}
+          placeholder={categoryPlaceholders[category]}
         />
       ))}
     </section>
