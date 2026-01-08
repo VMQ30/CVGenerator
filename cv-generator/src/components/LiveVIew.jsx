@@ -167,7 +167,7 @@ function RenderSkillsHeader({ skillsObj }) {
   return <h4>{header}</h4>;
 }
 
-function TechnicalProjects({ projectsData }) {
+function RenderTechnicalProjects({ projectsData }) {
   if (projectsData.length === 0) return;
 
   return (
@@ -197,6 +197,20 @@ function TechnicalProjects({ projectsData }) {
   );
 }
 
+function RenderAchievements({ awardsData }) {
+  if (Object.keys(awardsData).length === 0) return;
+
+  return (
+    <div className="resume-achievements">
+      <RenderSkillsHeader skillsObj={awardsData} />
+
+      <ul className="awards-list">
+        <RenderSkillsList skillsObj={awardsData} />
+      </ul>
+    </div>
+  );
+}
+
 export function LiveView({ resumeData }) {
   console.log(resumeData);
   return (
@@ -205,8 +219,9 @@ export function LiveView({ resumeData }) {
         <RenderPersonalDetails personalData={resumeData.personalDetails} />
         <RenderWorkExperience workData={resumeData.workExperience} />
         <RenderEducation educData={resumeData.education} />
-        <TechnicalProjects projectsData={resumeData.technicalProjects} />
+        <RenderTechnicalProjects projectsData={resumeData.technicalProjects} />
         <RenderSkills skillsData={resumeData.skillsAndCertifications} />
+        <RenderAchievements awardsData={resumeData.achievementsAndAwards} />
       </div>
     </div>
   );
