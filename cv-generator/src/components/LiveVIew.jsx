@@ -33,8 +33,6 @@ function RenderPersonalDetails({ personalData }) {
 }
 
 function RenderWorkExperience({ workData }) {
-  console.log(workData);
-
   if (workData.length === 0) return null;
 
   return (
@@ -54,6 +52,7 @@ function RenderWorkExperience({ workData }) {
             </div>
             <div className="resume-bullets">
               <ul>
+                <li>{work.companyDesc}</li>
                 {work.bullets.map((bullet, index) => (
                   <li key={index}>{bullet}</li>
                 ))}
@@ -66,6 +65,56 @@ function RenderWorkExperience({ workData }) {
   );
 }
 
+function RenderEducation({ educData }) {
+  if (educData.length === 0) return null;
+
+  return (
+    <div className="resume-education">
+      <h4>EDUCATION</h4>
+      {educData.map((educ) => (
+        <div className="resume-list" key={educ.id}>
+          <div className="resume-header">
+            <h5 className="company-name">{educ.schoolName}</h5>
+            <h5 className="company-date">{`${educ.startDateEduc} - ${educ.endDateEduc}`}</h5>
+          </div>
+
+          <div className="resume-details">
+            {educ.educLevel === "Tertiary Education" ||
+            educ.educLevel === "Postgraduate Education" ? (
+              <p className="course">{educ.degree}</p>
+            ) : (
+              <p className="educ-level">{educ.educLevel}</p>
+            )}
+          </div>
+
+          <div className="resume-honors">
+            <ul>
+              {educ.honors.map((honor, index) => (
+                <li key={index}>{honor}</li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="resume-bullets">
+            <ul>
+              {educ.bullets.map((bullet, index) => (
+                <li key={index}>{bullet}</li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+// function RenderSkills({ skillsData }) {
+//   if (Object.keys(skillsData).length === 0) return;
+//   return(
+//     <div className=""
+//   )
+// }
+
 export function LiveView({ resumeData }) {
   console.log(resumeData);
   return (
@@ -73,6 +122,7 @@ export function LiveView({ resumeData }) {
       <div className="live-view-page">
         <RenderPersonalDetails personalData={resumeData.personalDetails} />
         <RenderWorkExperience workData={resumeData.workExperience} />
+        <RenderEducation educData={resumeData.education} />
       </div>
     </div>
   );
