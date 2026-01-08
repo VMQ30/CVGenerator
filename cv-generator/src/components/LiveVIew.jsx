@@ -42,22 +42,20 @@ function RenderWorkExperience({ workData }) {
         <div className="resume-list" key={work.id}>
           <div className="resume-header">
             <h5 className="company-name">{work.companyName}</h5>
-            <h5 className="company-date">{`${work.startDate} - ${workData.endDate}`}</h5>
+            <h5 className="company-date">{`${work.startDate} - ${work.endDate}`}</h5>
           </div>
 
           <div className="resume-details">
-            <div className="resume-details-header">
-              <p className="title">{work.jobTitle}</p>
-              <p className="location">{work.jobLocation}</p>
-            </div>
-            <div className="resume-bullets">
-              <ul>
-                <li>{work.companyDesc}</li>
-                {work.bullets.map((bullet, index) => (
-                  <li key={index}>{bullet}</li>
-                ))}
-              </ul>
-            </div>
+            <p className="title">{work.jobTitle}</p>
+            <p className="location">{work.jobLocation}</p>
+          </div>
+          <div className="resume-bullets">
+            <ul>
+              <li>{work.companyDesc}</li>
+              {work.bullets.map((bullet, index) => (
+                <li key={index}>{bullet}</li>
+              ))}
+            </ul>
           </div>
         </div>
       ))}
@@ -85,6 +83,7 @@ function RenderEducation({ educData }) {
             ) : (
               <p className="educ-level">{educ.educLevel}</p>
             )}
+            <p className="educ-location">{educ.locationSchool}</p>
           </div>
 
           <div className="resume-honors">
@@ -122,28 +121,19 @@ function RenderSkills({ skillsData }) {
 }
 
 function RenderSkillsList({ skillsObj }) {
-  let valuesList = [];
-  Object.entries(skillsObj).forEach(([key, value]) => {
-    if (value.length === 0) return;
-    let values = `${key}: `;
-    value.forEach((val, index) => {
-      if (index === value.length - 1 || value.length === 1) {
-        values += val.text;
-      } else {
-        values += `${val.text}; `;
-      }
-    });
-
-    valuesList.push(values);
-  });
-
   return (
     <>
-      {valuesList.map((val, index) => (
-        <li key={index} className="skills-list-items">
-          {val}
-        </li>
-      ))}
+      {Object.entries(skillsObj).map(([key, value], index) => {
+        if (value.length === 0) return null;
+        const valuesString = value.map((val) => val.text).join("; ");
+
+        return (
+          <li key={index} className="skills-list-items">
+            <strong>{key}: </strong>
+            {valuesString}
+          </li>
+        );
+      })}
     </>
   );
 }

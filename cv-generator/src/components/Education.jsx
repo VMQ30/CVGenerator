@@ -105,7 +105,7 @@ function Modal({ isOpen, onSave, onClose }) {
           </div>
 
           <TextBox
-            id="location-school"
+            id="locationSchool"
             label="Location"
             type="text"
             placeholder="e.g. Sampaloc, Manila"
