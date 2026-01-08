@@ -178,18 +178,18 @@ function DropDown({
 }
 
 export function SkillsAndCertifications({ skillsData, setSkillsData }) {
-  const categories = ["Skills", "Technology", "Languages", "Certificates"];
+  const categories = ["Certificates", "Skills", "Technology", "Languages"];
   const placeholders = {
+    Certificates: "e.g. Cisco Certified Network Associate (CCNA)",
     Skills: "e.g. System Analysis, Technical Documentation",
     Technology: "e.g. Python, Docker, PostgreSQL",
     Languages: "e.g. English (Professional Proficiency)",
-    Certificates: "e.g. Cisco Certified Network Associate (CCNA)",
   };
   const currentData = {
+    Certificates: skillsData?.Certificates || [],
     Skills: skillsData?.Skills || [],
     Technology: skillsData?.Technology || [],
     Languages: skillsData?.Languages || [],
-    Certificates: skillsData?.Certificates || [],
   };
 
   const handleReorder = (category, newItems) => {

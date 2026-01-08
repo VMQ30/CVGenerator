@@ -108,21 +108,74 @@ function RenderEducation({ educData }) {
   );
 }
 
-// function RenderSkills({ skillsData }) {
-//   if (Object.keys(skillsData).length === 0) return;
-//   return(
-//     <div className=""
-//   )
-// }
+function RenderSkills({ skillsData }) {
+  console.log(skillsData);
+  if (Object.keys(skillsData).length === 0) return;
+  return (
+    <div className="resume-skills">
+      <RenderSkillsHeader skillsObj={skillsData} />
+
+      <ul className="skills-list">
+        <RenderSkillsList skillsObj={skillsData} />
+      </ul>
+    </div>
+  );
+}
+
+function RenderSkillsList({ skillsObj }) {
+  let valuesList = [];
+  Object.entries(skillsObj).forEach(([key, value]) => {
+    if (value.length === 0) return;
+    let values = `${key}: `;
+    value.forEach((val, index) => {
+      if (index === value.length - 1 || value.length === 1) {
+        values += val.text;
+      } else {
+        values += `${val.text}; `;
+      }
+    });
+
+    valuesList.push(values);
+  });
+
+  return (
+    <>
+      {valuesList.map((val) => (
+        <li className="skills-list-items">{val}</li>
+      ))}
+    </>
+  );
+}
+
+function RenderSkillsHeader({ skillsObj }) {
+  const headerArray = Object.keys(skillsObj)
+    .filter((key) => skillsObj[key].length !== 0)
+    .map((key) => key.toUpperCase());
+  let header = "";
+  for (let i = 0; i < headerArray.length; i++) {
+    if (headerArray.length === 1) {
+      header += `${headerArray[i]}`;
+    } else if (headerArray.length === 2 && i === 0) {
+      header += `${headerArray[i]} `;
+    } else if (i === headerArray.length - 1) {
+      header += `& ${headerArray[i]}`;
+    } else {
+      header += `${headerArray[i]}, `;
+    }
+  }
+
+  return <h4>{header}</h4>;
+}
 
 export function LiveView({ resumeData }) {
-  console.log(resumeData);
+  // console.log(resumeData);
   return (
     <div className="live-view-wrapper">
       <div className="live-view-page">
         <RenderPersonalDetails personalData={resumeData.personalDetails} />
         <RenderWorkExperience workData={resumeData.workExperience} />
         <RenderEducation educData={resumeData.education} />
+        <RenderSkills skillsData={resumeData.skillsAndCertifications} />
       </div>
     </div>
   );
