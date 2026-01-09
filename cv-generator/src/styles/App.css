@@ -16,14 +16,6 @@
   padding: 20px;
 }
 
-.live-view-wrapper,
-section {
-  background-color: #fafafa;
-  flex: 1 1 300px;
-  min-width: 300px;
-  box-sizing: border-box;
-}
-
-.live-view-wrapper {
+/* .live-view-wrapper {
   flex: 2;
-}
+} */

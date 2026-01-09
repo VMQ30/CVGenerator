@@ -3,13 +3,38 @@ h3 {
 }
 
 section {
-  flex: 1;
+  min-width: 0;
+}
+
+form {
+  min-width: 0;
+}
+
+section input,
+section textarea {
+  min-width: 0;
+}
+
+.live-view-wrapper {
+  background-color: #fafafa;
+  flex: 1 1 300px;
+  min-width: 300px;
+  box-sizing: border-box;
+}
+
+section {
+  background-color: #fafafa;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   padding: clamp(20px, 5vw, 40px);
   border-radius: 13px;
   gap: 20px;
   border: 2px solid #c7c7df;
+  max-width: 850px;
+  min-width: 0;
+
+  width: 30vw;
 }
 
 form {
@@ -45,6 +70,8 @@ section select {
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   width: 100%;
   resize: none;
+  overflow-wrap: break-word;
+  word-break: break-all;
 }
 
 section input:active,
@@ -308,5 +335,8 @@ input[type="date"] {
   }
   form {
     padding: 10px;
+  }
+  section {
+    width: 100%;
   }
 }
