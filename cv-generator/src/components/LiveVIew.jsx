@@ -172,14 +172,14 @@ function RenderTechnicalProjects({ projectsData }) {
           <div className="resume-details">
             <p className="project-role">{project.projectRole}</p>
             <p className="project-link">{project.projectLink}</p>
+          </div>
 
-            <div className="resume-bullets">
-              <ul>
-                {project.bullets.map((bullet, index) => (
-                  <li key={index}>{bullet}</li>
-                ))}
-              </ul>
-            </div>
+          <div className="resume-bullets">
+            <ul>
+              {project.bullets.map((bullet, index) => (
+                <li key={index}>{bullet}</li>
+              ))}
+            </ul>
           </div>
         </div>
       ))}
