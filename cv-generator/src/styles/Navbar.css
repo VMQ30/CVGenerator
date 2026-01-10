@@ -42,6 +42,15 @@ nav button:active {
   color: #33377a;
 }
 
+.export {
+  background-color: #646cff;
+  color: white;
+}
+
+.export:hover {
+  background-color: #858bff;
+}
+
 @media (max-width: 1024px) {
   nav {
     width: calc(100vw - clamp(20px, 5vw, 40px));

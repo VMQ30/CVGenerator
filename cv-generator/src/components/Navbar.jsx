@@ -7,7 +7,6 @@ const navSections = [
   "Skills & Certifications",
   "Technical Projects",
   "Achievements & Awards",
-  "Export",
 ];
 
 function Button({ label, onClick, isActive }) {
@@ -30,6 +29,9 @@ export function Navbar({ currentSection, setCurrentSection }) {
             isActive={currentSection === section}
           />
         ))}
+        <button className="export" onClick={() => window.print()}>
+          Export
+        </button>
       </div>
     </nav>
   );
