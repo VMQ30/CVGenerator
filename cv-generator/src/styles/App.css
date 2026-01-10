@@ -16,6 +16,74 @@
   padding: 20px;
 }
 
-/* .live-view-wrapper {
-  flex: 2;
-} */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+
+  body {
+    display: block;
+    align-items: flex-start;
+    margin: 0;
+    padding: 0;
+  }
+
+  .education,
+  nav {
+    display: none;
+  }
+
+  .live-view-wrapper,
+  .live-view-wrapper * {
+    visibility: visible;
+    box-shadow: none;
+  }
+
+  .live-view-wrapper {
+    position: absolute;
+    left: 0;
+    top: 0;
+    display: block;
+    left: 0;
+    top: 0;
+    padding: 0;
+    margin: 0;
+    margin: 20px;
+    width: 8in;
+  }
+
+  .live-view-page {
+    width: 8in;
+    padding: 0;
+    margin: 0 auto;
+  }
+
+  h3,
+  h4,
+  h5 {
+    break-after: avoid;
+    page-break-after: avoid;
+  }
+
+  p,
+  li {
+    orphans: 3;
+    widows: 3;
+  }
+
+  .resume-personal-details,
+  .resume-education,
+  .resume-work-experience,
+  .resume-projects,
+  .resume-skills,
+  .resume-achievements {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+    display: block;
+    margin-bottom: 1.5rem;
+  }
+
+  li {
+    break-inside: avoid !important;
+  }
+}

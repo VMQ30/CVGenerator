@@ -24,6 +24,7 @@ import { TextBox, EditableBulletItem } from "./Input";
 function Modal({ isOpen, onSave, onClose }) {
   const [bulletList, setBulletList] = useState([]);
   const [honorsList, setHonorsList] = useState([]);
+  const [wasSubmitted, setWasSubmitted] = useState(false);
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 8 } }),
@@ -46,6 +47,8 @@ function Modal({ isOpen, onSave, onClose }) {
 
   function handleSubmit(e) {
     e.preventDefault();
+    setWasSubmitted(true);
+    if (!e.currentTarget.checkValidity()) return;
     const formData = new FormData(e.target);
     const data = Object.fromEntries(formData.entries());
 
@@ -56,6 +59,7 @@ function Modal({ isOpen, onSave, onClose }) {
     onSave(finalData);
     setBulletList([]);
     setHonorsList([]);
+    setWasSubmitted(false);
   }
 
   function AddBulletList() {
@@ -78,12 +82,17 @@ function Modal({ isOpen, onSave, onClose }) {
   return (
     <div className="modal-container">
       <div className="modal">
-        <form onSubmit={handleSubmit}>
+        <form
+          onSubmit={handleSubmit}
+          className={wasSubmitted ? "submitted" : ""}
+          noValidate
+        >
           <TextBox
             id="schoolName"
             label="* School/University Name"
             type="text"
             placeholder="e.g. University of the Philippines"
+            required={true}
           />
 
           <LevelOfEducation />
@@ -94,6 +103,7 @@ function Modal({ isOpen, onSave, onClose }) {
               label="* Date Start"
               type="date"
               placeholder="MM/YYYY"
+              required={true}
             />
 
             <TextBox
@@ -101,6 +111,7 @@ function Modal({ isOpen, onSave, onClose }) {
               label="* Date Completed"
               type="date"
               placeholder="Present"
+              required={true}
             />
           </div>
 
@@ -109,9 +120,16 @@ function Modal({ isOpen, onSave, onClose }) {
             label="Location"
             type="text"
             placeholder="e.g. Sampaloc, Manila"
+            required={true}
           />
 
-          <TextBox id="gpa" label="GPA" type="text" placeholder="e.g. 1.25" />
+          <TextBox
+            id="gpa"
+            label="GPA"
+            type="text"
+            placeholder="e.g. 1.25"
+            required={false}
+          />
 
           <div className="honors-list">
             <DndContext
@@ -227,6 +245,7 @@ function LevelOfEducation() {
           label="* Degree/Major"
           type="text"
           placeholder="Bachelor of Science in Information and Technology"
+          required={true}
         />
       )}
     </>

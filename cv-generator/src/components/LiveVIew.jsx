@@ -24,7 +24,11 @@ function RenderPersonalDetails({ personalData }) {
         {personalData.portfolio ? (
           <>
             <p>|</p>
-            <p className="portfolio">{personalData.portfolio}</p>
+            <p className="portfolio">
+              <a href={personalData.portfolio}>
+                {personalData.portfolio.replace(/^https?:\/\/(www\.)?/, "")}
+              </a>
+            </p>
           </>
         ) : null}
       </div>
@@ -171,7 +175,11 @@ function RenderTechnicalProjects({ projectsData }) {
 
           <div className="resume-details">
             <p className="project-role">{project.projectRole}</p>
-            <p className="project-link">{project.projectLink}</p>
+            <p className="project-link">
+              <a href={project.projectLink}>
+                {project.projectLink.replace(/^https?:\/\/(www\.)?/, "")}
+              </a>
+            </p>
           </div>
 
           <div className="resume-bullets">

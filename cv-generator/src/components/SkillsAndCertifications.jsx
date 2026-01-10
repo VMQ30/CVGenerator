@@ -63,6 +63,7 @@ function EditableBulletItem({
           placeholder={placeholder}
           value={value || ""}
           onChange={onChange}
+          required={true}
         />
       </div>
     </div>

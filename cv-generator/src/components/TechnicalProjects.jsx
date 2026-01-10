@@ -73,6 +73,7 @@ export function Modal({ isOpen, onSave, onClose }) {
             label="* Project Name"
             type="text"
             placeholder="e.g. Healthcare Analytics Dashboard"
+            required={true}
           />
 
           <TextBox
@@ -80,6 +81,7 @@ export function Modal({ isOpen, onSave, onClose }) {
             label="* Project Role"
             type="text"
             placeholder="e.g. Frontend Developer"
+            required={true}
           />
 
           <TextBox
@@ -87,6 +89,7 @@ export function Modal({ isOpen, onSave, onClose }) {
             label="Project Link"
             type="url"
             placeholder="https:github.com/projectname"
+            required={false}
           />
 
           <DndContext
@@ -102,8 +105,8 @@ export function Modal({ isOpen, onSave, onClose }) {
                 <EditableBulletItem
                   id={bullet}
                   key={bullet}
-                  label="e.g. Implemented real-time data visualization using D3.js"
-                  placeholder="details"
+                  label="Project Details"
+                  placeholder="e.g. Implemented real-time data visualization using D3.js"
                   onDelete={() => RemoveBulletList(bullet)}
                 />
               ))}

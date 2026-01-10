@@ -7,7 +7,6 @@ const navSections = [
   "Skills & Certifications",
   "Technical Projects",
   "Achievements & Awards",
-  "Additional",
   "Export",
 ];
 

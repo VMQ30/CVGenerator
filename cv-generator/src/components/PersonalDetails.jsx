@@ -1,4 +1,4 @@
-function TextBox({ id, type, placeholder, label, value, onChange }) {
+function TextBox({ id, type, placeholder, label, value, onChange, required }) {
   return (
     <div>
       <label htmlFor={id}>{label}</label>
@@ -9,6 +9,7 @@ function TextBox({ id, type, placeholder, label, value, onChange }) {
         placeholder={placeholder}
         value={value || ""}
         onChange={(e) => onChange(id, e.target.value)}
+        required={required}
       />
     </div>
   );
@@ -34,6 +35,7 @@ export function PersonalDetails({ personalList, setPersonalList }) {
           label="* Full Name: "
           value={currentList.name}
           onChange={handleChange}
+          required={true}
         />
 
         <TextBox
@@ -43,6 +45,7 @@ export function PersonalDetails({ personalList, setPersonalList }) {
           label="* Email: "
           value={currentList.email}
           onChange={handleChange}
+          required={true}
         />
 
         <TextBox
@@ -61,15 +64,17 @@ export function PersonalDetails({ personalList, setPersonalList }) {
           label="* Location (City): "
           value={currentList.location}
           onChange={handleChange}
+          required={true}
         />
 
         <TextBox
           id="portfolio"
           type="url"
           placeholder="https://github.com/samplename"
-          label="* Portfolio/Github Link: "
+          label="Portfolio/Github Link: "
           value={currentList.portfolio}
           onChange={handleChange}
+          required={false}
         />
       </form>
     </section>

@@ -75,6 +75,7 @@ function Modal({ isOpen, onSave, onClose }) {
             label="* Company Name"
             type="text"
             placeholder="e.g. Accenture, GCash, or Maya"
+            required={true}
           />
 
           <TextBox
@@ -82,6 +83,7 @@ function Modal({ isOpen, onSave, onClose }) {
             label="* Job Title"
             type="text"
             placeholder="e.g. Associate Software Engineer"
+            required={true}
           />
 
           <div className="date">
@@ -90,6 +92,7 @@ function Modal({ isOpen, onSave, onClose }) {
               label="* Date Start"
               type="date"
               placeholder="MM/YYYY"
+              required={true}
             />
 
             <TextBox
@@ -97,6 +100,7 @@ function Modal({ isOpen, onSave, onClose }) {
               label="* Date End"
               type="date"
               placeholder="Present"
+              required={true}
             />
           </div>
 
@@ -105,12 +109,14 @@ function Modal({ isOpen, onSave, onClose }) {
             label="* Job Location"
             type="text"
             placeholder="e.g. BGC, Taguig"
+            required={true}
           />
 
           <TextArea
             id="companyDesc"
             label="* Company Description"
             placeholder="e.g. A leading digital bank in the Philippines serving over 1M users."
+            required={false}
           />
 
           <div className="modal-responsibility">
