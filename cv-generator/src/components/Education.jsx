@@ -57,6 +57,7 @@ function Modal({ isOpen, onSave, onClose }) {
         const fieldName = error.getAttribute("id") || "Field";
         errorMessages.push(
           `${fieldName
+            .replace(/[0-9-]/g, "")
             .replace(/([A-Z])/g, " $1")
             .toLowerCase()
             .split(" ")

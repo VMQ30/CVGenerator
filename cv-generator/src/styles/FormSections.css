@@ -153,6 +153,7 @@ form.submitted textarea:required:invalid {
   background-color: #646cff;
   color: white;
   margin-bottom: 10px;
+  width: 100%;
 }
 
 .remove-experience {

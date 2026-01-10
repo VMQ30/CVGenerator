@@ -78,7 +78,7 @@ function Modal({ isOpen, onSave, onClose }) {
             .join(" ")} is missing or invalid`
         );
       });
-      console.log(errorMessages);
+
       setErrors(errorMessages);
       return;
     }

@@ -25,6 +25,7 @@ export function Modal({ isOpen, onSave, onClose }) {
   if (!isOpen) return null;
   const [bulletList, setBulletList] = useState([]);
   const [wasSubmitted, setWasSubmitted] = useState(false);
+  const [errors, setErrors] = useState([]);
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 8 } }),
@@ -48,7 +49,29 @@ export function Modal({ isOpen, onSave, onClose }) {
   function handleSubmit(e) {
     e.preventDefault();
     setWasSubmitted(true);
-    if (!e.currentTarget.checkValidity()) return;
+    if (!e.currentTarget.checkValidity()) {
+      const invalidInputs = e.currentTarget.querySelectorAll(":invalid");
+      const errorMessages = [];
+
+      invalidInputs.forEach((error) => {
+        const fieldName = error.getAttribute("id") || "Field";
+        errorMessages.push(
+          `${fieldName
+            .replace(/[0-9-]/g, "")
+            .replace(/([A-Z])/g, " $1")
+            .toLowerCase()
+            .split(" ")
+            .map(
+              (word) =>
+                word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+            )
+            .join(" ")} is missing or invalid`
+        );
+      });
+
+      setErrors(errorMessages);
+      return;
+    }
 
     const formData = new FormData(e.target);
     const data = Object.fromEntries(formData.entries());
@@ -58,6 +81,14 @@ export function Modal({ isOpen, onSave, onClose }) {
 
     onSave(finalData);
     setBulletList([]);
+    setErrors([]);
+    setWasSubmitted(false);
+  }
+
+  function closeModal() {
+    onClose();
+    setWasSubmitted(false);
+    setErrors([]);
   }
 
   function AddBulletList() {
@@ -76,6 +107,16 @@ export function Modal({ isOpen, onSave, onClose }) {
           onSubmit={handleSubmit}
           noValidate
         >
+          {errors.length > 0 ? (
+            <div className="error-summary">
+              {errors.map((msg, index) => (
+                <p key={index} className="error">
+                  <strong>⚠︎ {msg}</strong>
+                </p>
+              ))}
+            </div>
+          ) : null}
+
           <TextBox
             id="projectName"
             label="* Project Name"
@@ -126,7 +167,11 @@ export function Modal({ isOpen, onSave, onClose }) {
           </button>
           <div className="form-buttons">
             <button className="save">Save</button>
-            <button type="button" className="cancel" onClick={onClose}>
+            <button
+              type="button"
+              className="cancel"
+              onClick={() => closeModal()}
+            >
               Cancel
             </button>
           </div>
