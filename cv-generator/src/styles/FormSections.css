@@ -71,7 +71,6 @@ section select {
   width: 100%;
   resize: none;
   overflow-wrap: break-word;
-  word-break: break-all;
 }
 
 section input:active,
@@ -81,7 +80,8 @@ section textarea:focus {
   outline-color: #646cff;
 }
 
-form.submitted input:required:invalid {
+form.submitted input:required:invalid,
+form.submitted textarea:required:invalid {
   border-color: #ff4a0e;
 }
 
@@ -331,6 +331,11 @@ input[type="date"] {
   margin-top: 20px;
 }
 
+.error {
+  color: #ff4a0e;
+  font-weight: 350;
+  padding-bottom: 3px;
+}
 @media (max-width: 950px) {
   .modal {
     width: 90vw;

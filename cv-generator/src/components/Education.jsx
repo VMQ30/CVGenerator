@@ -25,6 +25,7 @@ function Modal({ isOpen, onSave, onClose }) {
   const [bulletList, setBulletList] = useState([]);
   const [honorsList, setHonorsList] = useState([]);
   const [wasSubmitted, setWasSubmitted] = useState(false);
+  const [errors, setErrors] = useState([]);
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 8 } }),
@@ -48,7 +49,29 @@ function Modal({ isOpen, onSave, onClose }) {
   function handleSubmit(e) {
     e.preventDefault();
     setWasSubmitted(true);
-    if (!e.currentTarget.checkValidity()) return;
+    if (!e.currentTarget.checkValidity()) {
+      const invalidInputs = e.currentTarget.querySelectorAll(":invalid");
+      const errorMessages = [];
+
+      invalidInputs.forEach((error) => {
+        const fieldName = error.getAttribute("id") || "Field";
+        errorMessages.push(
+          `${fieldName
+            .replace(/([A-Z])/g, " $1")
+            .toLowerCase()
+            .split(" ")
+            .map(
+              (word) =>
+                word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+            )
+            .join(" ")} is missing or invalid`
+        );
+      });
+      setErrors(errorMessages);
+
+      return;
+    }
+
     const formData = new FormData(e.target);
     const data = Object.fromEntries(formData.entries());
 
@@ -59,7 +82,14 @@ function Modal({ isOpen, onSave, onClose }) {
     onSave(finalData);
     setBulletList([]);
     setHonorsList([]);
+    setErrors([]);
     setWasSubmitted(false);
+  }
+
+  function closeModal() {
+    onClose();
+    setWasSubmitted(false);
+    setErrors([]);
   }
 
   function AddBulletList() {
@@ -87,6 +117,16 @@ function Modal({ isOpen, onSave, onClose }) {
           className={wasSubmitted ? "submitted" : ""}
           noValidate
         >
+          {errors.length > 0 ? (
+            <div className="error-summary">
+              {errors.map((msg, index) => (
+                <p key={index} className="error">
+                  <strong>⚠︎ {msg}</strong>
+                </p>
+              ))}
+            </div>
+          ) : null}
+
           <TextBox
             id="schoolName"
             label="* School/University Name"
@@ -120,7 +160,7 @@ function Modal({ isOpen, onSave, onClose }) {
             label="Location"
             type="text"
             placeholder="e.g. Sampaloc, Manila"
-            required={true}
+            required={false}
           />
 
           <TextBox
@@ -193,7 +233,11 @@ function Modal({ isOpen, onSave, onClose }) {
 
           <div className="form-buttons">
             <button className="save">Save</button>
-            <button type="button" className="cancel" onClick={onClose}>
+            <button
+              type="button"
+              className="cancel"
+              onClick={() => closeModal()}
+            >
               Cancel
             </button>
           </div>

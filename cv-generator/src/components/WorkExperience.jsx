@@ -25,6 +25,8 @@ import { TextBox, TextArea, EditableBulletItem } from "./Input";
 
 function Modal({ isOpen, onSave, onClose }) {
   const [bulletList, setbulletList] = useState([]);
+  const [wasSubmitted, setWasSubmitted] = useState(false);
+  const [errors, setErrors] = useState([]);
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 8 } }),
@@ -55,6 +57,32 @@ function Modal({ isOpen, onSave, onClose }) {
 
   function handleSubmit(e) {
     e.preventDefault();
+    setWasSubmitted(true);
+
+    if (!e.currentTarget.checkValidity()) {
+      const invalidInputs = e.currentTarget.querySelectorAll(":invalid");
+      const errorMessages = [];
+
+      invalidInputs.forEach((error) => {
+        const fieldName = error.getAttribute("id") || "Field";
+        errorMessages.push(
+          `${fieldName
+            .replace(/[0-9-]/g, "")
+            .replace(/([A-Z])/g, " $1")
+            .toLowerCase()
+            .split(" ")
+            .map(
+              (word) =>
+                word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+            )
+            .join(" ")} is missing or invalid`
+        );
+      });
+      console.log(errorMessages);
+      setErrors(errorMessages);
+      return;
+    }
+
     const formData = new FormData(e.target);
     const data = Object.fromEntries(formData.entries());
 
@@ -63,13 +91,36 @@ function Modal({ isOpen, onSave, onClose }) {
 
     onSave(finalData);
     setbulletList([]);
+    setErrors([]);
+    setWasSubmitted(false);
+  }
+
+  function closeModal() {
+    onClose();
+    setWasSubmitted(false);
+    setErrors([]);
   }
 
   if (!isOpen) return null;
+
   return (
     <div className="modal-container">
       <div className="modal">
-        <form onSubmit={handleSubmit}>
+        <form
+          onSubmit={handleSubmit}
+          className={wasSubmitted ? "submitted" : ""}
+          noValidate
+        >
+          {errors.length > 0 ? (
+            <div className="error-summary">
+              {errors.map((msg, index) => (
+                <p key={index} className="error">
+                  <strong>⚠︎ {msg}</strong>
+                </p>
+              ))}
+            </div>
+          ) : null}
+
           <TextBox
             id="companyName"
             label="* Company Name"
@@ -114,7 +165,7 @@ function Modal({ isOpen, onSave, onClose }) {
 
           <TextArea
             id="companyDesc"
-            label="* Company Description"
+            label="Company Description"
             placeholder="e.g. A leading digital bank in the Philippines serving over 1M users."
             required={false}
           />
@@ -147,7 +198,11 @@ function Modal({ isOpen, onSave, onClose }) {
 
           <div className="form-buttons">
             <button className="save">Save</button>
-            <button type="button" className="cancel" onClick={onClose}>
+            <button
+              type="button"
+              className="cancel"
+              onClick={() => closeModal()}
+            >
               Cancel
             </button>
           </div>

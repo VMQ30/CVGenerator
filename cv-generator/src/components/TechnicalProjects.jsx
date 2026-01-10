@@ -24,6 +24,7 @@ import { TextBox, EditableBulletItem } from "./Input";
 export function Modal({ isOpen, onSave, onClose }) {
   if (!isOpen) return null;
   const [bulletList, setBulletList] = useState([]);
+  const [wasSubmitted, setWasSubmitted] = useState(false);
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 8 } }),
@@ -46,6 +47,9 @@ export function Modal({ isOpen, onSave, onClose }) {
 
   function handleSubmit(e) {
     e.preventDefault();
+    setWasSubmitted(true);
+    if (!e.currentTarget.checkValidity()) return;
+
     const formData = new FormData(e.target);
     const data = Object.fromEntries(formData.entries());
 
@@ -67,7 +71,11 @@ export function Modal({ isOpen, onSave, onClose }) {
   return (
     <div className="modal-container">
       <div className="modal">
-        <form className="add-project" onSubmit={handleSubmit}>
+        <form
+          className={wasSubmitted ? "submitted" : ""}
+          onSubmit={handleSubmit}
+          noValidate
+        >
           <TextBox
             id="projectName"
             label="* Project Name"
