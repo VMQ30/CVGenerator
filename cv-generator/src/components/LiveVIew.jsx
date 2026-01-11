@@ -203,7 +203,7 @@ function RenderTechnicalProjects({ projectsData }) {
 }
 
 function RenderAchievements({ awardsData }) {
-  if (Object.keys(awardsData).length === 0) return;
+  if (Object.keys(awardsData).length === 0) return null;
 
   return (
     <div className="resume-achievements">
@@ -217,7 +217,6 @@ function RenderAchievements({ awardsData }) {
 }
 
 export function LiveView({ resumeData }) {
-  console.log(resumeData);
   return (
     <div className="live-view-wrapper">
       <div className="live-view-page">

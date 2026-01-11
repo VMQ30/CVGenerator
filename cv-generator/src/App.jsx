@@ -77,7 +77,6 @@ export function App() {
     }
   };
 
-  // console.log(resumeData);
   return (
     <div className="resume-container">
       <Navbar

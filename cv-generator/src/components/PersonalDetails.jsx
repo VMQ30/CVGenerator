@@ -31,7 +31,7 @@ export function PersonalDetails({ personalList, setPersonalList }) {
         <TextBox
           id="name"
           type="text"
-          placeholder="John Doe"
+          placeholder="e.g. Juan D. Dela Cruz"
           label="* Full Name: "
           value={currentList.name}
           onChange={handleChange}
@@ -41,7 +41,7 @@ export function PersonalDetails({ personalList, setPersonalList }) {
         <TextBox
           id="email"
           type="email"
-          placeholder="sample@email.com"
+          placeholder="e.g. sample@email.com"
           label="* Email: "
           value={currentList.email}
           onChange={handleChange}
@@ -51,7 +51,7 @@ export function PersonalDetails({ personalList, setPersonalList }) {
         <TextBox
           id="contactNumber"
           type="tel"
-          placeholder="(000) 000-0000"
+          placeholder="e.g. 0917 123 4567"
           label="* Contact Number: "
           value={currentList.contactNumber}
           onChange={handleChange}
@@ -60,7 +60,7 @@ export function PersonalDetails({ personalList, setPersonalList }) {
         <TextBox
           id="location"
           type="text"
-          placeholder="Place"
+          placeholder="e.g. Quezon City, Metro Manila"
           label="* Location (City): "
           value={currentList.location}
           onChange={handleChange}
@@ -70,7 +70,7 @@ export function PersonalDetails({ personalList, setPersonalList }) {
         <TextBox
           id="portfolio"
           type="url"
-          placeholder="https://github.com/samplename"
+          placeholder="e.g. https://github.com/samplename"
           label="Portfolio/Github Link: "
           value={currentList.portfolio}
           onChange={handleChange}

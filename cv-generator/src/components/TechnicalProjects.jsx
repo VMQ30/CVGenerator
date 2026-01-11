@@ -1,6 +1,5 @@
 import dragIcon from "../assets/drag.svg";
 import closeIcon from "../assets/close.svg";
-import editIcon from "../assets/edit.svg";
 import hideIcon from "../assets/hide.svg";
 import unhideIcon from "../assets/unhide.svg";
 import {
@@ -142,7 +141,7 @@ export function Modal({ isOpen, onSave, onClose }) {
             id="projectLink"
             label="Project Link"
             type="url"
-            placeholder="https:github.com/projectname"
+            placeholder="e.g. https:github.com/projectname"
             required={false}
           />
 
@@ -241,10 +240,6 @@ function ProjectList({ data, onToggleHide, deleteData }) {
         </div>
 
         <div className="experience-buttons">
-          <button className="edit">
-            <img src={editIcon} alt="edit" />
-          </button>
-
           <ToggleHideButton
             key="hide"
             isHidden={data.isHidden}
@@ -294,7 +289,6 @@ export function TechnicalProjects({ projectsList, setProjectsList }) {
     ];
     setProjectsList(updatedList, "technicalProjects");
     setIsModalOpen(false);
-    console.log(updatedList);
   };
 
   function toggleHide(id) {

@@ -1,6 +1,5 @@
 import dragIcon from "../assets/drag.svg";
 import closeIcon from "../assets/close.svg";
-import editIcon from "../assets/edit.svg";
 import hideIcon from "../assets/hide.svg";
 import unhideIcon from "../assets/unhide.svg";
 
@@ -295,7 +294,7 @@ function LevelOfEducation() {
           id="degree"
           label="* Degree/Major"
           type="text"
-          placeholder="Bachelor of Science in Information and Technology"
+          placeholder="e.g. Bachelor of Science in Information and Technology"
           required={true}
         />
       )}
@@ -353,10 +352,6 @@ function EducationList({ data, onToggleHide, deleteData }) {
         </div>
 
         <div className="experience-buttons">
-          <button className="edit">
-            <img src={editIcon} alt="edit" />
-          </button>
-
           <ToggleHideButton
             key="hide"
             isHidden={data.isHidden}
