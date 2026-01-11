@@ -207,7 +207,7 @@ function ToggleHideButton({ isHidden, onClick }) {
   }
 }
 
-function ProjectList({ data, onToggleHide }) {
+function ProjectList({ data, onToggleHide, deleteData }) {
   const {
     attributes,
     listeners,
@@ -252,7 +252,7 @@ function ProjectList({ data, onToggleHide }) {
           />
 
           <button className="delete">
-            <img src={closeIcon} alr="delete" />
+            <img src={closeIcon} alr="delete" onClick={deleteData} />
           </button>
         </div>
       </div>
@@ -321,6 +321,12 @@ export function TechnicalProjects({ projectsList, setProjectsList }) {
               key={project.id}
               data={project}
               onToggleHide={() => toggleHide(project.id)}
+              deleteData={() =>
+                setProjectsList(
+                  currentList.filter((proj) => proj.id !== project.id),
+                  "technicalProjects"
+                )
+              }
             />
           ))}
         </SortableContext>

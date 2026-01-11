@@ -237,7 +237,7 @@ function ToggleHideButton({ isHidden, onClick }) {
   }
 }
 
-function ExperienceList({ data, onToggleHide }) {
+function ExperienceList({ data, onToggleHide, deleteData }) {
   const {
     attributes,
     listeners,
@@ -281,7 +281,7 @@ function ExperienceList({ data, onToggleHide }) {
             onClick={onToggleHide}
           />
 
-          <button className="delete">
+          <button className="delete" onClick={deleteData}>
             <img src={closeIcon} alr="delete" />
           </button>
         </div>
@@ -352,6 +352,12 @@ export function WorkExperience({ workList, setWorkList }) {
               key={experience.id}
               data={experience}
               onToggleHide={() => toggleHide(experience.id)}
+              deleteData={() =>
+                setWorkList(
+                  currentList.filter((exp) => exp.id !== experience.id),
+                  "workExperience"
+                )
+              }
             />
           ))}
         </SortableContext>

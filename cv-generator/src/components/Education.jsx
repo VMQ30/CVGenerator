@@ -321,7 +321,7 @@ function ToggleHideButton({ isHidden, onClick }) {
   }
 }
 
-function EducationList({ data, onToggleHide }) {
+function EducationList({ data, onToggleHide, deleteData }) {
   const {
     attributes,
     listeners,
@@ -363,7 +363,7 @@ function EducationList({ data, onToggleHide }) {
             onClick={onToggleHide}
           />
 
-          <button className="delete">
+          <button className="delete" onClick={deleteData}>
             <img src={closeIcon} alr="delete" />
           </button>
         </div>
@@ -434,6 +434,12 @@ export function Education({ educationList, setEducationList }) {
               key={educ.id}
               data={educ}
               onToggleHide={() => toggleHide(educ.id)}
+              deleteData={() =>
+                setEducationList(
+                  currentList.filter((ed) => ed.id !== educ.id),
+                  "education"
+                )
+              }
             />
           ))}
         </SortableContext>
