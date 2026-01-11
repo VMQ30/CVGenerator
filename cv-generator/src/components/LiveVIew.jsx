@@ -42,27 +42,29 @@ function RenderWorkExperience({ workData }) {
   return (
     <div className="resume-work-experience">
       <h4>WORK EXPERIENCE</h4>
-      {workData.map((work) => (
-        <div className="resume-list" key={work.id}>
-          <div className="resume-header">
-            <h5 className="company-name">{work.companyName}</h5>
-            <h5 className="company-date">{`${work.startDate} - ${work.endDate}`}</h5>
-          </div>
+      {workData.map((work) =>
+        work.isHidden ? null : (
+          <div className="resume-list" key={work.id}>
+            <div className="resume-header">
+              <h5 className="company-name">{work.companyName}</h5>
+              <h5 className="company-date">{`${work.startDate} - ${work.endDate}`}</h5>
+            </div>
 
-          <div className="resume-details">
-            <p className="title">{work.jobTitle}</p>
-            <p className="location">{work.jobLocation}</p>
+            <div className="resume-details">
+              <p className="title">{work.jobTitle}</p>
+              <p className="location">{work.jobLocation}</p>
+            </div>
+            <div className="resume-bullets">
+              <ul>
+                <li>{work.companyDesc}</li>
+                {work.bullets.map((bullet, index) => (
+                  <li key={index}>{bullet}</li>
+                ))}
+              </ul>
+            </div>
           </div>
-          <div className="resume-bullets">
-            <ul>
-              <li>{work.companyDesc}</li>
-              {work.bullets.map((bullet, index) => (
-                <li key={index}>{bullet}</li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      ))}
+        )
+      )}
     </div>
   );
 }
@@ -73,40 +75,42 @@ function RenderEducation({ educData }) {
   return (
     <div className="resume-education">
       <h4>EDUCATION</h4>
-      {educData.map((educ) => (
-        <div className="resume-list" key={educ.id}>
-          <div className="resume-header">
-            <h5 className="company-name">{educ.schoolName}</h5>
-            <h5 className="company-date">{`${educ.startDateEduc} - ${educ.endDateEduc}`}</h5>
-          </div>
+      {educData.map((educ) =>
+        educ.isHidden ? null : (
+          <div className="resume-list" key={educ.id}>
+            <div className="resume-header">
+              <h5 className="company-name">{educ.schoolName}</h5>
+              <h5 className="company-date">{`${educ.startDateEduc} - ${educ.endDateEduc}`}</h5>
+            </div>
 
-          <div className="resume-details">
-            {educ.educLevel === "Tertiary Education" ||
-            educ.educLevel === "Postgraduate Education" ? (
-              <p className="course">{educ.degree}</p>
-            ) : (
-              <p className="educ-level">{educ.educLevel}</p>
-            )}
-            <p className="educ-location">{educ.locationSchool}</p>
-          </div>
+            <div className="resume-details">
+              {educ.educLevel === "Tertiary Education" ||
+              educ.educLevel === "Postgraduate Education" ? (
+                <p className="course">{educ.degree}</p>
+              ) : (
+                <p className="educ-level">{educ.educLevel}</p>
+              )}
+              <p className="educ-location">{educ.locationSchool}</p>
+            </div>
 
-          <div className="resume-honors">
-            <ul>
-              {educ.honors.map((honor, index) => (
-                <li key={index}>{honor}</li>
-              ))}
-            </ul>
-          </div>
+            <div className="resume-honors">
+              <ul>
+                {educ.honors.map((honor, index) => (
+                  <li key={index}>{honor}</li>
+                ))}
+              </ul>
+            </div>
 
-          <div className="resume-bullets">
-            <ul>
-              {educ.bullets.map((bullet, index) => (
-                <li key={index}>{bullet}</li>
-              ))}
-            </ul>
+            <div className="resume-bullets">
+              <ul>
+                {educ.bullets.map((bullet, index) => (
+                  <li key={index}>{bullet}</li>
+                ))}
+              </ul>
+            </div>
           </div>
-        </div>
-      ))}
+        )
+      )}
     </div>
   );
 }
@@ -167,30 +171,32 @@ function RenderTechnicalProjects({ projectsData }) {
   return (
     <div className="resume-projects">
       <h4>TECHNICAL PROJECTS</h4>
-      {projectsData.map((project) => (
-        <div className="resume-list" key={project.id}>
-          <div className="resume-header">
-            <h5 className="project-name">{project.projectName}</h5>
-          </div>
+      {projectsData.map((project) =>
+        project.isHidden ? null : (
+          <div className="resume-list" key={project.id}>
+            <div className="resume-header">
+              <h5 className="project-name">{project.projectName}</h5>
+            </div>
 
-          <div className="resume-details">
-            <p className="project-role">{project.projectRole}</p>
-            <p className="project-link">
-              <a href={project.projectLink}>
-                {project.projectLink.replace(/^https?:\/\/(www\.)?/, "")}
-              </a>
-            </p>
-          </div>
+            <div className="resume-details">
+              <p className="project-role">{project.projectRole}</p>
+              <p className="project-link">
+                <a href={project.projectLink}>
+                  {project.projectLink.replace(/^https?:\/\/(www\.)?/, "")}
+                </a>
+              </p>
+            </div>
 
-          <div className="resume-bullets">
-            <ul>
-              {project.bullets.map((bullet, index) => (
-                <li key={index}>{bullet}</li>
-              ))}
-            </ul>
+            <div className="resume-bullets">
+              <ul>
+                {project.bullets.map((bullet, index) => (
+                  <li key={index}>{bullet}</li>
+                ))}
+              </ul>
+            </div>
           </div>
-        </div>
-      ))}
+        )
+      )}
     </div>
   );
 }

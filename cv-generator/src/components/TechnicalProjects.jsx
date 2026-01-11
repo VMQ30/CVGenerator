@@ -202,9 +202,9 @@ function ToggleHideButton({ isHidden, onClick }) {
   }
 }
 
-function ProjectList({ data }) {
+function ProjectList({ data, onToggleHide }) {
   console.log(data);
-  const [isHidden, setIsHidden] = useState(false);
+
   return (
     <div className="education-list-wrapper">
       <button className="drag">
@@ -224,8 +224,8 @@ function ProjectList({ data }) {
 
           <ToggleHideButton
             key="hide"
-            isHidden={isHidden}
-            onClick={() => setIsHidden(!isHidden)}
+            isHidden={data.isHidden}
+            onClick={onToggleHide}
           />
 
           <button className="delete">
@@ -244,18 +244,33 @@ export function TechnicalProjects({ projectsList, setProjectsList }) {
   const handleSaveProject = (newProject) => {
     const updatedList = [
       ...currentList,
-      { ...newProject, id: `${currentList.length}-${Date.now()}` },
+      {
+        ...newProject,
+        id: `${currentList.length}-${Date.now()}`,
+        isHidden: false,
+      },
     ];
     setProjectsList(updatedList, "technicalProjects");
     setIsModalOpen(false);
     console.log(updatedList);
   };
 
+  function toggleHide(id) {
+    const updatedList = currentList.map((item) =>
+      id === item.id ? { ...item, isHidden: !item.isHidden } : item
+    );
+    setProjectsList(updatedList, "technicalProjects");
+  }
+
   return (
     <section className="projects">
       <h3>Technical Projects</h3>
       {currentList.map((project) => (
-        <ProjectList key={project.id} data={project} />
+        <ProjectList
+          key={project.id}
+          data={project}
+          onToggleHide={() => toggleHide(project.id)}
+        />
       ))}
       <button className="add-projects" onClick={() => setIsModalOpen(true)}>
         Add Project

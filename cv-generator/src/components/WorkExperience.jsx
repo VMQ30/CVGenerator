@@ -233,9 +233,7 @@ function ToggleHideButton({ isHidden, onClick }) {
   }
 }
 
-function ExperienceList({ data }) {
-  const [isHidden, setIsHidden] = useState(false);
-
+function ExperienceList({ data, onToggleHide }) {
   return (
     <div className="experience-list-wrapper">
       <button className="drag">
@@ -255,8 +253,8 @@ function ExperienceList({ data }) {
 
           <ToggleHideButton
             key="hide"
-            isHidden={isHidden}
-            onClick={() => setIsHidden(!isHidden)}
+            isHidden={data.isHidden}
+            onClick={onToggleHide}
           />
 
           <button className="delete">
@@ -275,19 +273,34 @@ export function WorkExperience({ workList, setWorkList }) {
   const handleSaveExperience = (newExperience) => {
     const updatedList = [
       ...currentList,
-      { ...newExperience, id: `${currentList.length}-${Date.now()}` },
+      {
+        ...newExperience,
+        id: `${currentList.length}-${Date.now()}`,
+        isHidden: false,
+      },
     ];
 
     setWorkList(updatedList, "workExperience");
     setIsModalOpen(false);
   };
 
+  function toggleHide(id) {
+    const updatedItem = currentList.map((item) =>
+      item.id === id ? { ...item, isHidden: !item.isHidden } : item
+    );
+    setWorkList(updatedItem, "workExperience");
+  }
+
   return (
     <section>
       <h3>Work Experience</h3>
 
       {currentList.map((experience) => (
-        <ExperienceList key={experience.id} data={experience} />
+        <ExperienceList
+          key={experience.id}
+          data={experience}
+          onToggleHide={() => toggleHide(experience.id)}
+        />
       ))}
 
       <button onClick={() => setIsModalOpen(!isModalOpen)}>

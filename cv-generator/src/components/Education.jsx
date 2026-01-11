@@ -315,9 +315,7 @@ function ToggleHideButton({ isHidden, onClick }) {
   }
 }
 
-function EducationList({ data }) {
-  const [isHidden, setIsHidden] = useState(false);
-
+function EducationList({ data, onToggleHide }) {
   return (
     <div className="education-list-wrapper">
       <button className="drag">
@@ -335,8 +333,8 @@ function EducationList({ data }) {
 
           <ToggleHideButton
             key="hide"
-            isHidden={isHidden}
-            onClick={() => setIsHidden(!isHidden)}
+            isHidden={data.isHidden}
+            onClick={onToggleHide}
           />
 
           <button className="delete">
@@ -355,18 +353,34 @@ export function Education({ educationList, setEducationList }) {
   const handleSaveEducation = (newEducation) => {
     const updatedList = [
       ...currentList,
-      { ...newEducation, id: `${currentList.length}-${Date.now()}` },
+      {
+        ...newEducation,
+        id: `${currentList.length}-${Date.now()}`,
+        isHidden: false,
+      },
     ];
+
     setEducationList(updatedList, "education");
     setIsModalOpen(false);
   };
+
+  function toggleHide(id) {
+    const updatedItem = currentList.map((item) =>
+      item.id === id ? { ...item, isHidden: !item.isHidden } : item
+    );
+    setEducationList(updatedItem, "education");
+  }
 
   return (
     <section className="education">
       <h3>Education</h3>
 
       {currentList.map((educ) => (
-        <EducationList key={educ.id} data={educ} />
+        <EducationList
+          key={educ.id}
+          data={educ}
+          onToggleHide={() => toggleHide(educ.id)}
+        />
       ))}
       <button
         className="add-education"
