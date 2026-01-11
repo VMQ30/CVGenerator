@@ -54,9 +54,10 @@ function RenderWorkExperience({ workData }) {
               <p className="title">{work.jobTitle}</p>
               <p className="location">{work.jobLocation}</p>
             </div>
+
             <div className="resume-bullets">
               <ul>
-                <li>{work.companyDesc}</li>
+                {work.companyDesc ? <li>{work.companyDesc}</li> : null}
                 {work.bullets.map((bullet, index) => (
                   <li key={index}>{bullet}</li>
                 ))}

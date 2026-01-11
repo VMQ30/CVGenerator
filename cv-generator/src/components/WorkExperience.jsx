@@ -13,6 +13,7 @@ import {
   useSensor,
   useSensors,
 } from "@dnd-kit/core";
+
 import {
   arrayMove,
   SortableContext,
@@ -22,6 +23,9 @@ import {
 
 import { useState } from "react";
 import { TextBox, TextArea, EditableBulletItem } from "./Input";
+
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 
 function Modal({ isOpen, onSave, onClose }) {
   const [bulletList, setbulletList] = useState([]);
@@ -234,9 +238,29 @@ function ToggleHideButton({ isHidden, onClick }) {
 }
 
 function ExperienceList({ data, onToggleHide }) {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id: data.id });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    zIndex: isDragging ? 100 : "auto",
+    opacity: isDragging ? 0.6 : 1,
+  };
+
   return (
-    <div className="experience-list-wrapper">
-      <button className="drag">
+    <div
+      ref={setNodeRef}
+      style={style}
+      className={`experience-list-wrapper ${isDragging ? "dragging" : ""}`}
+    >
+      <button className="drag" {...attributes} {...listeners}>
         <img src={dragIcon} alt="drag" />
       </button>
       <div className="experience-list">
@@ -270,6 +294,25 @@ export function WorkExperience({ workList, setWorkList }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const currentList = workList || [];
 
+  const sensors = useSensors(
+    useSensor(PointerSensor, { activationConstraint: { distance: 8 } }),
+    useSensor(TouchSensor, {
+      activationConstraint: { delay: 250, tolerance: 5 },
+    }),
+    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates })
+  );
+
+  function handleDragEnd(event) {
+    const { active, over } = event;
+    if (active.id !== over?.id) {
+      const oldIndex = currentList.findIndex((item) => item.id === active.id);
+      const newIndex = currentList.findIndex((item) => item.id === over.id);
+
+      const updatedList = arrayMove(currentList, oldIndex, newIndex);
+      setWorkList(updatedList, "workExperience");
+    }
+  }
+
   const handleSaveExperience = (newExperience) => {
     const updatedList = [
       ...currentList,
@@ -295,13 +338,24 @@ export function WorkExperience({ workList, setWorkList }) {
     <section>
       <h3>Work Experience</h3>
 
-      {currentList.map((experience) => (
-        <ExperienceList
-          key={experience.id}
-          data={experience}
-          onToggleHide={() => toggleHide(experience.id)}
-        />
-      ))}
+      <DndContext
+        sensors={sensors}
+        collisionDetection={closestCenter}
+        onDragEnd={handleDragEnd}
+      >
+        <SortableContext
+          items={currentList.map((i) => i.id)}
+          strategy={verticalListSortingStrategy}
+        >
+          {currentList.map((experience) => (
+            <ExperienceList
+              key={experience.id}
+              data={experience}
+              onToggleHide={() => toggleHide(experience.id)}
+            />
+          ))}
+        </SortableContext>
+      </DndContext>
 
       <button onClick={() => setIsModalOpen(!isModalOpen)}>
         Add Work Experience

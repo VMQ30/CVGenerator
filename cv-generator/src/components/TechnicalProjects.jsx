@@ -12,14 +12,19 @@ import {
   useSensor,
   useSensors,
 } from "@dnd-kit/core";
+
 import {
   arrayMove,
   SortableContext,
   sortableKeyboardCoordinates,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
+
 import { useState } from "react";
 import { TextBox, EditableBulletItem } from "./Input";
+
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 
 export function Modal({ isOpen, onSave, onClose }) {
   if (!isOpen) return null;
@@ -203,11 +208,29 @@ function ToggleHideButton({ isHidden, onClick }) {
 }
 
 function ProjectList({ data, onToggleHide }) {
-  console.log(data);
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id: data.id });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    zIndex: isDragging ? 100 : "auto",
+    opacity: isDragging ? 0.6 : 1,
+  };
 
   return (
-    <div className="education-list-wrapper">
-      <button className="drag">
+    <div
+      ref={setNodeRef}
+      style={style}
+      className={`experience-list-wrapper ${isDragging ? "dragging" : ""}`}
+    >
+      <button className="drag" {...attributes} {...listeners}>
         <img src={dragIcon} alt="drag" />
       </button>
       <div className="project-list">
@@ -241,6 +264,25 @@ export function TechnicalProjects({ projectsList, setProjectsList }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const currentList = projectsList || [];
 
+  const sensors = useSensors(
+    useSensor(PointerSensor, { activationConstraint: { distance: 8 } }),
+    useSensor(TouchSensor, {
+      activationConstraint: { delay: 250, tolerance: 5 },
+    }),
+    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates })
+  );
+
+  function handleDragEnd(event) {
+    const { active, over } = event;
+    if (active.id !== over?.id) {
+      const oldIndex = currentList.findIndex((item) => item.id === active.id);
+      const newIndex = currentList.findIndex((item) => item.id === over.id);
+
+      const updatedList = arrayMove(currentList, oldIndex, newIndex);
+      setProjectsList(updatedList, "technicalProjects");
+    }
+  }
+
   const handleSaveProject = (newProject) => {
     const updatedList = [
       ...currentList,
@@ -265,13 +307,24 @@ export function TechnicalProjects({ projectsList, setProjectsList }) {
   return (
     <section className="projects">
       <h3>Technical Projects</h3>
-      {currentList.map((project) => (
-        <ProjectList
-          key={project.id}
-          data={project}
-          onToggleHide={() => toggleHide(project.id)}
-        />
-      ))}
+      <DndContext
+        sensors={sensors}
+        collisionDetection={closestCenter}
+        onDragEnd={handleDragEnd}
+      >
+        <SortableContext
+          items={currentList.map((i) => i.id)}
+          strategy={verticalListSortingStrategy}
+        >
+          {currentList.map((project) => (
+            <ProjectList
+              key={project.id}
+              data={project}
+              onToggleHide={() => toggleHide(project.id)}
+            />
+          ))}
+        </SortableContext>
+      </DndContext>
       <button className="add-projects" onClick={() => setIsModalOpen(true)}>
         Add Project
       </button>
